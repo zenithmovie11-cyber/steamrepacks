@@ -1,4 +1,27 @@
 import "./lib/error-capture";
+import { botSignal, shouldInspect } from "./lib/ip-security";
+
+// Only Cloudflare-edge requests (request.cf present) carry a trustworthy cf-connecting-ip.
+async function firewall(request: Request): Promise<Response | null> {
+  const cf = (request as Request & { cf?: { country?: string; asOrganization?: string; asn?: number } }).cf;
+  const ip = request.headers.get("cf-connecting-ip");
+  if (!cf || !ip || !shouldInspect(request)) return null;
+  try {
+    const { supabaseAdmin } = await import("./integrations/supabase/client.server");
+    const { data } = await supabaseAdmin.rpc("enforce_ip_security", {
+      p_ip: ip,
+      p_path: new URL(request.url).pathname,
+      p_country: cf.country ?? "Unknown",
+      p_asn: cf.asOrganization ? `AS${cf.asn ?? ""} ${cf.asOrganization}` : null,
+      p_bot_signal: botSignal(request.headers.get("user-agent")),
+    } as never);
+    if (data === "rate_limited") return new Response("Too many requests", { status: 429, headers: { "retry-after": "60" } });
+    if (data === "blocked" || data === "bot_blocked") return new Response("Access denied by firewall", { status: 403 });
+  } catch (error) {
+    console.error("firewall check failed", error);
+  }
+  return null;
+}
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
@@ -44,12 +67,11 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
-// Hosting compresses every response at the edge. Never compress a body (gzip, brotli,
-// CompressionStream) or set content-encoding here or in a server route: the body gets encoded
-// twice and renders garbled.
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const denied = await firewall(request);
+      if (denied) return denied;
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);

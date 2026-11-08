@@ -10,33 +10,154 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as BottomCtaRouteImport } from './routes/bottom-cta'
+import { Route as DevConsoleRouteImport } from './routes/dev-console'
+import { Route as HeroSlidesRouteImport } from './routes/hero-slides'
+import { Route as IpSecurityRouteImport } from './routes/ip-security'
+import { Route as OffersRouteImport } from './routes/offers'
+import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
+import { Route as ApiPublicHeroClickRouteImport } from './routes/api/public/hero-click'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BottomCtaRoute = BottomCtaRouteImport.update({
+  id: '/bottom-cta',
+  path: '/bottom-cta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevConsoleRoute = DevConsoleRouteImport.update({
+  id: '/dev-console',
+  path: '/dev-console',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeroSlidesRoute = HeroSlidesRouteImport.update({
+  id: '/hero-slides',
+  path: '/hero-slides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IpSecurityRoute = IpSecurityRouteImport.update({
+  id: '/ip-security',
+  path: '/ip-security',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OffersRoute = OffersRouteImport.update({
+  id: '/offers',
+  path: '/offers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicAnalyticsRoute = ApiPublicAnalyticsRouteImport.update({
+  id: '/api/public/analytics',
+  path: '/api/public/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicHeroClickRoute = ApiPublicHeroClickRouteImport.update({
+  id: '/api/public/hero-click',
+  path: '/api/public/hero-click',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
+  '/bottom-cta': typeof BottomCtaRoute
+  '/dev-console': typeof DevConsoleRoute
+  '/hero-slides': typeof HeroSlidesRoute
+  '/ip-security': typeof IpSecurityRoute
+  '/offers': typeof OffersRoute
+  '/api/public/analytics': typeof ApiPublicAnalyticsRoute
+  '/api/public/hero-click': typeof ApiPublicHeroClickRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
+  '/bottom-cta': typeof BottomCtaRoute
+  '/dev-console': typeof DevConsoleRoute
+  '/hero-slides': typeof HeroSlidesRoute
+  '/ip-security': typeof IpSecurityRoute
+  '/offers': typeof OffersRoute
+  '/api/public/analytics': typeof ApiPublicAnalyticsRoute
+  '/api/public/hero-click': typeof ApiPublicHeroClickRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/analytics': typeof AnalyticsRoute
+  '/bottom-cta': typeof BottomCtaRoute
+  '/dev-console': typeof DevConsoleRoute
+  '/hero-slides': typeof HeroSlidesRoute
+  '/ip-security': typeof IpSecurityRoute
+  '/offers': typeof OffersRoute
+  '/api/public/analytics': typeof ApiPublicAnalyticsRoute
+  '/api/public/hero-click': typeof ApiPublicHeroClickRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/bottom-cta'
+    | '/dev-console'
+    | '/hero-slides'
+    | '/ip-security'
+    | '/offers'
+    | '/api/public/analytics'
+    | '/api/public/hero-click'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/bottom-cta'
+    | '/dev-console'
+    | '/hero-slides'
+    | '/ip-security'
+    | '/offers'
+    | '/api/public/analytics'
+    | '/api/public/hero-click'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/analytics'
+    | '/bottom-cta'
+    | '/dev-console'
+    | '/hero-slides'
+    | '/ip-security'
+    | '/offers'
+    | '/api/public/analytics'
+    | '/api/public/hero-click'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AnalyticsRoute: typeof AnalyticsRoute
+  BottomCtaRoute: typeof BottomCtaRoute
+  DevConsoleRoute: typeof DevConsoleRoute
+  HeroSlidesRoute: typeof HeroSlidesRoute
+  IpSecurityRoute: typeof IpSecurityRoute
+  OffersRoute: typeof OffersRoute
+  ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
+  ApiPublicHeroClickRoute: typeof ApiPublicHeroClickRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +169,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bottom-cta': {
+      id: '/bottom-cta'
+      path: '/bottom-cta'
+      fullPath: '/bottom-cta'
+      preLoaderRoute: typeof BottomCtaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dev-console': {
+      id: '/dev-console'
+      path: '/dev-console'
+      fullPath: '/dev-console'
+      preLoaderRoute: typeof DevConsoleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hero-slides': {
+      id: '/hero-slides'
+      path: '/hero-slides'
+      fullPath: '/hero-slides'
+      preLoaderRoute: typeof HeroSlidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ip-security': {
+      id: '/ip-security'
+      path: '/ip-security'
+      fullPath: '/ip-security'
+      preLoaderRoute: typeof IpSecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/offers': {
+      id: '/offers'
+      path: '/offers'
+      fullPath: '/offers'
+      preLoaderRoute: typeof OffersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/analytics': {
+      id: '/api/public/analytics'
+      path: '/api/public/analytics'
+      fullPath: '/api/public/analytics'
+      preLoaderRoute: typeof ApiPublicAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hero-click': {
+      id: '/api/public/hero-click'
+      path: '/api/public/hero-click'
+      fullPath: '/api/public/hero-click'
+      preLoaderRoute: typeof ApiPublicHeroClickRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AnalyticsRoute: AnalyticsRoute,
+  BottomCtaRoute: BottomCtaRoute,
+  DevConsoleRoute: DevConsoleRoute,
+  HeroSlidesRoute: HeroSlidesRoute,
+  IpSecurityRoute: IpSecurityRoute,
+  OffersRoute: OffersRoute,
+  ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,
+  ApiPublicHeroClickRoute: ApiPublicHeroClickRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -7,24 +7,17 @@
 >
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
-
-## What Lovable manages
-
-Rules outside this block are the project's own. Change the pieces below in
-Lovable, not by hand. With the [Lovable MCP](https://mcp.lovable.dev)
-connected, `send_message` asks Lovable to do it; otherwise ask the user to
-use the editor.
-
-- **Database.** Do not add or edit `supabase/migrations/` or `drizzle/`.
-  Ask Lovable to change the schema.
-- **Generated files.** Do not edit a file whose header says it is automatically
-  generated.
-- **AI gateway.** Keep model calls on Lovable's gateway, and keep
-  `LOVABLE_API_KEY` out of browser code.
-- **Connectors.** Lovable provides native connectors. `list_connectors` shows
-  which are enabled; `add_connector` only returns the dashboard link. When a
-  connector is enabled, calls go through the connector gateway and need
-  `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
-  own key and store it in Secrets.
-- **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Keep app-wide visual roles in src/styles.css semantic tokens and shared UI controls; page styling must reuse them for consistency.
+- Roles use protected database tables and authenticated SECURITY DEFINER RPCs; email assignments work before sign-in, all mutations write immutable audit records, and original administrators cannot be demoted. UI permissions come from my_permissions, while RLS and report RPCs enforce each capability independently.
+- Shared dashboard headers, metric accents and content-card treatments live in global CSS; this keeps all content and admin screens visually consistent without changing their data or permissions.
+- Apply the app's fixed theme in the root layout so direct navigation and previously saved browser preferences cannot produce inconsistent page themes.
+- Analytics tracking is mounted once in the root; anonymous same-origin events enter a bounded server-only ingestion endpoint, while aggregate reads enforce public.is_admin() in the database. This separates public measurement from private admin reporting.
+- Overview visitor metrics also use server-recorded analytics_sessions; the deprecated visitor_pings table accepts no browser writes, preventing arbitrary visitor-record edits.
+- Analytics uses first-party pseudonymous visitor IDs, inactivity-based sessions, visible-time engagement and hosting-provided geolocation only; unavailable location stays Unknown to avoid fabricated demographics.
+- Acquisition is classified server-side from origin-only entry referrers and saved only on session insertion; wrappers preserve existing analytics RPCs and historical sessions remain unattributed to avoid fabricated sources or navigation overwrites.
+- Hero slider controls are persisted separately with admin-only writes; Embla handles carousel navigation, while deadlines are stored in UTC and expired offers are excluded at render time.
+- Hero button click ingestion requires same-origin bounded requests and a recent recorded analytics session; service-only RPCs deduplicate and rate-limit writes, and admin-only aggregates report actual clicks without public counters.
+- IP firewall runs in src/server.ts only for Cloudflare-edge requests (request.cf present) and fails open; why: cf-connecting-ip is only trustworthy at the edge and a DB outage must not take the site down.
+- Bottom CTA uses singleton settings with slides.manage write policies and a shared renderer; this keeps admin previews and homepage output consistent.
