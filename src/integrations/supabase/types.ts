@@ -91,6 +91,30 @@ export type Database = {
         }
         Relationships: []
       }
+      app_roles: {
+        Row: {
+          created_at: string
+          id: string
+          is_system: boolean
+          name: string
+          permissions: string[]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_system?: boolean
+          name: string
+          permissions?: string[]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_system?: boolean
+          name?: string
+          permissions?: string[]
+        }
+        Relationships: []
+      }
       hero_slide_clicks: {
         Row: {
           created_at: string
@@ -240,6 +264,71 @@ export type Database = {
         }
         Relationships: []
       }
+      security_audit_logs: {
+        Row: {
+          action: string
+          actor_email: string
+          actor_id: string | null
+          created_at: string
+          details: Json
+          id: string
+          target: string
+        }
+        Insert: {
+          action: string
+          actor_email: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          target: string
+        }
+        Update: {
+          action?: string
+          actor_email?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          target?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          email: string
+          id: string
+          protected: boolean
+          role_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          email: string
+          id?: string
+          protected?: boolean
+          role_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          email?: string
+          id?: string
+          protected?: boolean
+          role_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "app_roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       visitor_pings: {
         Row: {
           first_seen: string
@@ -269,8 +358,18 @@ export type Database = {
       admin_analytics: { Args: { p_days?: number }; Returns: Json }
       admin_analytics_acquisition: { Args: { p_days?: number }; Returns: Json }
       admin_hero_slide_stats: { Args: { p_days?: number }; Returns: Json }
+      assign_app_role: {
+        Args: { p_email: string; p_role: string }
+        Returns: undefined
+      }
       dev_console_overview: { Args: never; Returns: Json }
+      has_permission: { Args: { p_permission: string }; Returns: boolean }
       is_admin: { Args: never; Returns: boolean }
+      manage_app_role: {
+        Args: { p_id: string; p_name: string; p_permissions: string[] }
+        Returns: string
+      }
+      my_permissions: { Args: never; Returns: string[] }
       record_analytics_acquisition: {
         Args: {
           p_browser: string
@@ -307,6 +406,8 @@ export type Database = {
         Args: { p_id: string; p_session: string; p_slide: string }
         Returns: undefined
       }
+      roles_security_data: { Args: never; Returns: Json }
+      security_audit_page: { Args: { p_offset?: number }; Returns: Json }
     }
     Enums: {
       [_ in never]: never
