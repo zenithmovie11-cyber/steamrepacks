@@ -1,0 +1,21 @@
+# Roadmap
+- [ ] Add persisted admin Bottom Banner CTA controls and connect the homepage
+- [ ] Verify CTA saves, visibility, buttons, images and restricted access
+- [x] Add IP Security & Block below Roles & Security with real block/allow lists and request logs; establish trusted IP provenance before enforcement
+- [x] Confirm app-level rate-limit tradeoff; hosting-level DDoS protection and verified VPN/proxy intelligence require supported external capabilities
+- [ ] Build Roles & Security below Hero Slides with email assignments, custom roles, permission matrix and real audit logs
+- [ ] Enforce permissions across posts, slides and reports; protect the three original administrators
+- [ ] Verify signed-in role management and denied unauthorized access
+- [x] Apply colorful SaaS dashboard theme across the app and remove the dark hero overlay
+- [x] Verify library and signed-in admin pages, mobile overflow and slider tests; live slide appearance unavailable because no slides are saved
+- [x] Add slider settings, expiring offers, video loops and real slide click analytics
+- [x] Verify admin save, public playback/expiry and click reporting
+- [x] Add admin-only Analytics with real traffic metrics and demographics / technology breakdowns
+- [x] Restyle the whole app with a cohesive light SaaS UI
+- [x] Reset copied database setup for remixed project and recreate posts, admin rule, media storage
+- [x] Confirm preview reads and writes Analytics through this project's backend
+- [x] Collapsible sidebar with admin-only Dev Console (Overview & Quick Stats, real data)
+- [x] Confirm copied migrations cleared and fresh migration set in place
+- [x] Add real session-based Direct, Organic Search, Social and Referral acquisition reporting
+- [x] Verify attribution, access restrictions and Analytics display
+- [x] Clear copied migrations and scaffold an empty migration set for this remix
