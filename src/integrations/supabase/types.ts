@@ -115,6 +115,51 @@ export type Database = {
         }
         Relationships: []
       }
+      bottom_cta_settings: {
+        Row: {
+          alignment: string
+          background_image_url: string
+          headline: string
+          id: number
+          is_visible: boolean
+          primary_button_link: string
+          primary_button_text: string
+          secondary_button_link: string
+          secondary_button_text: string
+          secondary_enabled: boolean
+          subtitle: string
+          updated_at: string
+        }
+        Insert: {
+          alignment?: string
+          background_image_url?: string
+          headline?: string
+          id?: number
+          is_visible?: boolean
+          primary_button_link?: string
+          primary_button_text?: string
+          secondary_button_link?: string
+          secondary_button_text?: string
+          secondary_enabled?: boolean
+          subtitle?: string
+          updated_at?: string
+        }
+        Update: {
+          alignment?: string
+          background_image_url?: string
+          headline?: string
+          id?: number
+          is_visible?: boolean
+          primary_button_link?: string
+          primary_button_text?: string
+          secondary_button_link?: string
+          secondary_button_text?: string
+          secondary_enabled?: boolean
+          subtitle?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       hero_slide_clicks: {
         Row: {
           created_at: string
@@ -216,6 +261,162 @@ export type Database = {
         }
         Relationships: []
       }
+      ip_security_counters: {
+        Row: {
+          blocked_until: string | null
+          ip: unknown
+          last_logged: string | null
+          requests: number
+          window_start: string
+        }
+        Insert: {
+          blocked_until?: string | null
+          ip: unknown
+          last_logged?: string | null
+          requests?: number
+          window_start?: string
+        }
+        Update: {
+          blocked_until?: string | null
+          ip?: unknown
+          last_logged?: string | null
+          requests?: number
+          window_start?: string
+        }
+        Relationships: []
+      }
+      ip_security_events: {
+        Row: {
+          asn: string | null
+          bot_signal: string | null
+          country: string
+          created_at: string
+          decision: string
+          id: string
+          ip: unknown
+          path: string
+        }
+        Insert: {
+          asn?: string | null
+          bot_signal?: string | null
+          country?: string
+          created_at?: string
+          decision: string
+          id?: string
+          ip: unknown
+          path: string
+        }
+        Update: {
+          asn?: string | null
+          bot_signal?: string | null
+          country?: string
+          created_at?: string
+          decision?: string
+          id?: string
+          ip?: unknown
+          path?: string
+        }
+        Relationships: []
+      }
+      ip_security_rules: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          kind: string
+          network: unknown
+          reason: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          kind: string
+          network: unknown
+          reason?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          kind?: string
+          network?: unknown
+          reason?: string
+        }
+        Relationships: []
+      }
+      ip_security_settings: {
+        Row: {
+          block_bot_signals: boolean
+          block_minutes: number
+          id: number
+          rate_limit_enabled: boolean
+          requests_per_minute: number
+        }
+        Insert: {
+          block_bot_signals?: boolean
+          block_minutes?: number
+          id?: number
+          rate_limit_enabled?: boolean
+          requests_per_minute?: number
+        }
+        Update: {
+          block_bot_signals?: boolean
+          block_minutes?: number
+          id?: number
+          rate_limit_enabled?: boolean
+          requests_per_minute?: number
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          address: string
+          bkash_number: string
+          city: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          payment_ref: string | null
+          phone: string
+          post_ids: string[]
+          status: string
+          total: number
+          user_id: string
+        }
+        Insert: {
+          address: string
+          bkash_number: string
+          city: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          payment_ref?: string | null
+          phone: string
+          post_ids: string[]
+          status?: string
+          total?: number
+          user_id?: string
+        }
+        Update: {
+          address?: string
+          bkash_number?: string
+          city?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          payment_ref?: string | null
+          phone?: string
+          post_ids?: string[]
+          status?: string
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           category: string
@@ -294,6 +495,51 @@ export type Database = {
         }
         Relationships: []
       }
+      special_offers: {
+        Row: {
+          badge_text: string
+          banner_text: string
+          created_at: string
+          discount_type: string
+          discount_value: number
+          ends_at: string | null
+          id: string
+          is_active: boolean
+          post_ids: string[]
+          show_banner: boolean
+          starts_at: string | null
+          title: string
+        }
+        Insert: {
+          badge_text?: string
+          banner_text?: string
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean
+          post_ids?: string[]
+          show_banner?: boolean
+          starts_at?: string | null
+          title: string
+        }
+        Update: {
+          badge_text?: string
+          banner_text?: string
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          ends_at?: string | null
+          id?: string
+          is_active?: boolean
+          post_ids?: string[]
+          show_banner?: boolean
+          starts_at?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           email: string
@@ -363,13 +609,42 @@ export type Database = {
         Returns: undefined
       }
       dev_console_overview: { Args: never; Returns: Json }
+      enforce_ip_security: {
+        Args: {
+          p_asn: string
+          p_bot_signal: string
+          p_country: string
+          p_ip: string
+          p_path: string
+        }
+        Returns: string
+      }
       has_permission: { Args: { p_permission: string }; Returns: boolean }
+      ip_security_overview: { Args: { p_offset?: number }; Returns: Json }
       is_admin: { Args: never; Returns: boolean }
       manage_app_role: {
         Args: { p_id: string; p_name: string; p_permissions: string[] }
         Returns: string
       }
+      manage_ip_security_rule: {
+        Args: {
+          p_delete?: boolean
+          p_expires_at: string
+          p_id: string
+          p_kind: string
+          p_network: string
+          p_reason: string
+        }
+        Returns: string
+      }
       my_permissions: { Args: never; Returns: string[] }
+      post_play_urls: {
+        Args: never
+        Returns: {
+          id: string
+          play_url: string
+        }[]
+      }
       record_analytics_acquisition: {
         Args: {
           p_browser: string
@@ -407,6 +682,15 @@ export type Database = {
         Returns: undefined
       }
       roles_security_data: { Args: never; Returns: Json }
+      save_ip_security_settings: {
+        Args: {
+          p_block_bots: boolean
+          p_block_minutes: number
+          p_rate_limit: boolean
+          p_rpm: number
+        }
+        Returns: undefined
+      }
       security_audit_page: { Args: { p_offset?: number }; Returns: Json }
     }
     Enums: {
