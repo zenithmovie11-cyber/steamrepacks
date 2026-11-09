@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as AnnouncementBarRouteImport } from './routes/announcement-bar'
 import { Route as BottomCtaRouteImport } from './routes/bottom-cta'
 import { Route as DevConsoleRouteImport } from './routes/dev-console'
 import { Route as HeroSlidesRouteImport } from './routes/hero-slides'
@@ -33,6 +34,11 @@ const AdminRoute = AdminRouteImport.update({
 const AnalyticsRoute = AnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnnouncementBarRoute = AnnouncementBarRouteImport.update({
+  id: '/announcement-bar',
+  path: '/announcement-bar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BottomCtaRoute = BottomCtaRouteImport.update({
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
+  '/announcement-bar': typeof AnnouncementBarRoute
   '/bottom-cta': typeof BottomCtaRoute
   '/dev-console': typeof DevConsoleRoute
   '/hero-slides': typeof HeroSlidesRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
+  '/announcement-bar': typeof AnnouncementBarRoute
   '/bottom-cta': typeof BottomCtaRoute
   '/dev-console': typeof DevConsoleRoute
   '/hero-slides': typeof HeroSlidesRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
+  '/announcement-bar': typeof AnnouncementBarRoute
   '/bottom-cta': typeof BottomCtaRoute
   '/dev-console': typeof DevConsoleRoute
   '/hero-slides': typeof HeroSlidesRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/analytics'
+    | '/announcement-bar'
     | '/bottom-cta'
     | '/dev-console'
     | '/hero-slides'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/analytics'
+    | '/announcement-bar'
     | '/bottom-cta'
     | '/dev-console'
     | '/hero-slides'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/analytics'
+    | '/announcement-bar'
     | '/bottom-cta'
     | '/dev-console'
     | '/hero-slides'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  AnnouncementBarRoute: typeof AnnouncementBarRoute
   BottomCtaRoute: typeof BottomCtaRoute
   DevConsoleRoute: typeof DevConsoleRoute
   HeroSlidesRoute: typeof HeroSlidesRoute
@@ -181,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/analytics'
       fullPath: '/analytics'
       preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/announcement-bar': {
+      id: '/announcement-bar'
+      path: '/announcement-bar'
+      fullPath: '/announcement-bar'
+      preLoaderRoute: typeof AnnouncementBarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bottom-cta': {
@@ -239,6 +259,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AnalyticsRoute: AnalyticsRoute,
+  AnnouncementBarRoute: AnnouncementBarRoute,
   BottomCtaRoute: BottomCtaRoute,
   DevConsoleRoute: DevConsoleRoute,
   HeroSlidesRoute: HeroSlidesRoute,

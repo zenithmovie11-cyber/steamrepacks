@@ -91,6 +91,51 @@ export type Database = {
         }
         Relationships: []
       }
+      announcement_bar_settings: {
+        Row: {
+          bg_color: string
+          expires_at: string | null
+          font_size: string
+          id: number
+          is_dismissible: boolean
+          is_enabled: boolean
+          link_text: string
+          link_url: string
+          message: string
+          starts_at: string | null
+          text_color: string
+          updated_at: string
+        }
+        Insert: {
+          bg_color?: string
+          expires_at?: string | null
+          font_size?: string
+          id?: number
+          is_dismissible?: boolean
+          is_enabled?: boolean
+          link_text?: string
+          link_url?: string
+          message?: string
+          starts_at?: string | null
+          text_color?: string
+          updated_at?: string
+        }
+        Update: {
+          bg_color?: string
+          expires_at?: string | null
+          font_size?: string
+          id?: number
+          is_dismissible?: boolean
+          is_enabled?: boolean
+          link_text?: string
+          link_url?: string
+          message?: string
+          starts_at?: string | null
+          text_color?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       app_roles: {
         Row: {
           created_at: string

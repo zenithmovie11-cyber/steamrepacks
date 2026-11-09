@@ -22,6 +22,13 @@
       "when": 1794107448280,
       "tag": "0002_ip_security_controls",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794183563994,
+      "tag": "0003_announcement_bar",
+      "breakpoints": true
     }
   ]
 }

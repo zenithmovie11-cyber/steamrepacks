@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Terminal, Library, Layers, ShieldCheck, ShieldBan, ChartNoAxesCombined, Images, KeyRound, BadgePercent, Megaphone } from "lucide-react";
+import { Terminal, Library, Layers, ShieldCheck, ShieldBan, ChartNoAxesCombined, Images, KeyRound, BadgePercent, Megaphone, BellRing } from "lucide-react";
 
 import {
   Sidebar,
@@ -21,6 +21,7 @@ const adminItems = [
   { title: "Hero Slides", url: "/hero-slides", icon: Images, tone: "bg-warning-soft text-warning", permission: 'slides.manage' },
   { title: "Special Offers", url: "/offers", icon: BadgePercent, tone: "bg-primary/10 text-primary", permission: 'posts.edit' },
   { title: "Bottom Banner CTA", url: "/bottom-cta", icon: Megaphone, tone: "bg-info-soft text-info", permission: 'slides.manage' },
+  { title: "Announcement Bar", url: "/announcement-bar", icon: BellRing, tone: "bg-warning-soft text-warning", permission: 'slides.manage' },
   { title: "Roles & Security", url: "/admin", icon: KeyRound, tone: "bg-primary/10 text-primary", permission: 'roles.manage' },
   { title: "IP Security & Block", url: "/ip-security", icon: ShieldBan, tone: "bg-destructive/10 text-destructive", permission: 'roles.manage' },
 ] as const;
