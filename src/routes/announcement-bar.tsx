@@ -40,7 +40,7 @@ function AnnouncementPage() {
 
 const toLocal = (iso: string | null) => { if (!iso) return ''; const d = new Date(iso); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); };
 const fromLocal = (v: string) => v ? new Date(v).toISOString() : null;
-const presets = [['#1f2937', '#ffffff'], ['#dc2626', '#ffffff'], ['#16a34a', '#ffffff'], ['#2563eb', '#ffffff'], ['#facc15', '#111827'], ['#7c3aed', '#ffffff']];
+const presets: [string, string][] = [['#1f2937', '#ffffff'], ['#dc2626', '#ffffff'], ['#16a34a', '#ffffff'], ['#2563eb', '#ffffff'], ['#facc15', '#111827'], ['#7c3aed', '#ffffff']];
 
 function Form({ initial }: { initial: AnnouncementSettings }) {
   const [d, setD] = useState(initial);
