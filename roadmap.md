@@ -22,3 +22,4 @@
 - [x] Add real session-based Direct, Organic Search, Social and Referral acquisition reporting
 - [x] Verify attribution, access restrictions and Analytics display
 - [x] Clear copied migrations and scaffold an empty migration set for this remix
+- [x] Add per-section permissions (offers, announcement, bottom CTA, lookbooks, reviews, IP security) to the matrix and role editor
