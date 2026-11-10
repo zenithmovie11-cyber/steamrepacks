@@ -33,7 +33,7 @@ function BottomCtaPage() {
     <header className="dashboard-header flex items-center gap-3 border-b px-5 py-6"><SidebarTrigger /><span className="text-sm font-medium">Admin Panel / Bottom Banner CTA</span></header>
     <main className="mx-auto max-w-5xl px-5 py-8">
       <h1 className="mb-8 text-3xl font-semibold">Bottom Banner CTA</h1>
-      {accessLoading ? <Loader2 className="animate-spin" /> : !can('slides.manage') ? <p>Access denied. Sign in with an authorized account from the library.</p> : settings.isPending ? <Loader2 className="animate-spin" /> : settings.error ? <p role="alert">Settings could not load. <Button variant="outline" onClick={() => settings.refetch()}>Retry</Button></p> : settings.data && <SettingsForm initial={settings.data} />}
+      {accessLoading ? <Loader2 className="animate-spin" /> : !can('bottom_cta.manage') ? <p>Access denied. Sign in with an authorized account from the library.</p> : settings.isPending ? <Loader2 className="animate-spin" /> : settings.error ? <p role="alert">Settings could not load. <Button variant="outline" onClick={() => settings.refetch()}>Retry</Button></p> : settings.data && <SettingsForm initial={settings.data} />}
     </main>
   </div></SidebarProvider>;
 }

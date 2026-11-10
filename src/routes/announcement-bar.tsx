@@ -33,7 +33,7 @@ function AnnouncementPage() {
     <header className="dashboard-header flex items-center gap-3 border-b px-5 py-6"><SidebarTrigger /><span className="text-sm font-medium">Admin Panel / Announcement Bar</span></header>
     <main className="mx-auto max-w-4xl px-5 py-8">
       <h1 className="mb-8 text-3xl font-semibold">Announcement Bar</h1>
-      {accessLoading ? <Loader2 className="animate-spin" /> : !can('slides.manage') ? <p>Access denied. Sign in with an authorized account from the library.</p> : q.isPending ? <Loader2 className="animate-spin" /> : q.error ? <p role="alert">Settings could not load. <Button variant="outline" onClick={() => q.refetch()}>Retry</Button></p> : q.data && <Form key={q.dataUpdatedAt} initial={q.data} />}
+      {accessLoading ? <Loader2 className="animate-spin" /> : !can('announcement.manage') ? <p>Access denied. Sign in with an authorized account from the library.</p> : q.isPending ? <Loader2 className="animate-spin" /> : q.error ? <p role="alert">Settings could not load. <Button variant="outline" onClick={() => q.refetch()}>Retry</Button></p> : q.data && <Form key={q.dataUpdatedAt} initial={q.data} />}
     </main>
   </div></SidebarProvider>;
 }

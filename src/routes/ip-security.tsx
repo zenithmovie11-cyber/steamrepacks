@@ -38,7 +38,7 @@ function IpSecurityPage() {
   const { user, can, accessLoading } = useSession();
   const qc = useQueryClient();
   const [offset, setOffset] = useState(0);
-  const q = useQuery({ queryKey: ['ip-security', user?.id, offset], enabled: !!user && can('roles.manage'), refetchInterval: 15000, queryFn: async () => {
+  const q = useQuery({ queryKey: ['ip-security', user?.id, offset], enabled: !!user && can('security.manage'), refetchInterval: 15000, queryFn: async () => {
     const { data, error } = await supabase.rpc('ip_security_overview', { p_offset: offset });
     if (error) throw error;
     return data as unknown as Overview;
@@ -61,7 +61,7 @@ function IpSecurityPage() {
   return <SidebarProvider><AppSidebar /><div className="min-h-screen min-w-0 flex-1">
     <header className="dashboard-header sticky top-0 z-30 flex items-center gap-3 border-b px-5 py-6 lg:px-8"><SidebarTrigger aria-label="Toggle sidebar" /><span className="text-sm font-medium">Admin Panel <span className="mx-2 text-muted-foreground">/</span> IP Security &amp; Block</span></header>
     <main className="mx-auto max-w-7xl px-5 py-8 lg:px-8">
-      {accessLoading ? <Loader2 className="size-6 animate-spin" /> : !user || !can('roles.manage') ? <div className="py-16 text-center"><LockKeyhole className="mx-auto mb-4 size-10 text-primary" /><h1 className="text-xl font-semibold">Admin only</h1></div> : <>
+      {accessLoading ? <Loader2 className="size-6 animate-spin" /> : !user || !can('security.manage') ? <div className="py-16 text-center"><LockKeyhole className="mx-auto mb-4 size-10 text-primary" /><h1 className="text-xl font-semibold">Admin only</h1></div> : <>
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4"><div><p className="mb-2 text-xs font-medium text-primary">Admin Panel</p><h1 className="text-3xl font-semibold">IP Security &amp; Block</h1></div><Button variant="outline" size="icon" aria-label="Refresh" onClick={refresh}><RefreshCw className={q.isFetching ? 'animate-spin' : ''} /></Button></div>
         <p className="mb-8 flex gap-2 rounded-lg border bg-info-soft p-4 text-sm text-info"><Info className="mt-0.5 size-4 shrink-0" />Rules are checked on page loads and public endpoints of the published site. This is app-level protection — it does not stop large network DDoS floods, and VPN/proxy detection is limited to the network owner (ASN) shown in logs.</p>
         {q.error && <p role="alert" className="mb-5 text-destructive">Could not load. <Button variant="link" onClick={() => q.refetch()}>Retry</Button></p>}
