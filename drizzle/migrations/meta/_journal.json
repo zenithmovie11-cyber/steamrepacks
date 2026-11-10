@@ -29,6 +29,13 @@
       "when": 1794183563994,
       "tag": "0003_announcement_bar",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794270071922,
+      "tag": "0004_lookbook_gallery",
+      "breakpoints": true
     }
   ]
 }
