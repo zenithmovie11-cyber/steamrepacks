@@ -14,7 +14,7 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 
 export function LookbookEditor({ album, onSaved, onClose }: { album: AlbumGallery | null; onSaved: (id: string) => void; onClose: () => void }) {
-  const [draft, setDraft] = useState<AlbumDraft>(album ?? emptyAlbum);
+  const [draft, setDraft] = useState<AlbumDraft>(() => album ? albumSchema.parse(album) : emptyAlbum);
   const [busy, setBusy] = useState(false);
   const [selected, setSelected] = useState<string | null>(album?.images[0]?.id ?? null);
   const [postId, setPostId] = useState('');
