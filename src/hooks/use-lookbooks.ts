@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { publicAlbums, type AlbumGallery } from '@/lib/lookbook';
+import { publishedLookbookImageUrls } from '@/lib/lookbook-media.functions';
 
 export const lookbookKey = ['lookbooks'] as const;
 export const lookbookBucket = 'lookbook-media';
@@ -16,9 +17,16 @@ export function useLookbooks(manage = false, enabled = true) {
     if (imageError) throw imageError;
     const { data: hotspots, error: tagError } = images.length ? await supabase.from('lookbook_hotspots').select('*').in('image_id', images.map(i => i.id)) : { data: [], error: null };
     if (tagError) throw tagError;
-    const { data: urls, error: urlError } = images.length ? await supabase.storage.from(lookbookBucket).createSignedUrls(images.map(i => i.storage_path), 60) : { data: [], error: null };
-    if (urlError) throw urlError;
-    const urlMap = new Map((urls ?? []).map(u => [u.path, u.signedUrl]));
-    return albums.map(a => ({ ...a, images: images.filter(i => i.lookbook_id === a.id).map(i => ({ ...i, url: urlMap.get(i.storage_path) ?? '' })), hotspots: (hotspots ?? []).filter(h => images.some(i => i.id === h.image_id && i.lookbook_id === a.id)) }));
+    const urlMap = new Map<string, string>();
+    if (images.length && manage) {
+      const { data: urls, error: urlError } = await supabase.storage.from(lookbookBucket).createSignedUrls(images.map(i => i.storage_path), 60);
+      if (urlError) throw urlError;
+      const byPath = new Map((urls ?? []).map(u => [u.path, u.signedUrl]));
+      for (const i of images) urlMap.set(i.id, byPath.get(i.storage_path) ?? '');
+    } else if (images.length) {
+      const urls = await publishedLookbookImageUrls({ data: { imageIds: images.map(i => i.id) } });
+      for (const u of urls) urlMap.set(u.id, u.url);
+    }
+    return albums.map(a => ({ ...a, images: images.filter(i => i.lookbook_id === a.id).map(i => ({ ...i, url: urlMap.get(i.id) ?? '' })), hotspots: (hotspots ?? []).filter(h => images.some(i => i.id === h.image_id && i.lookbook_id === a.id)) }));
   } });
 }
