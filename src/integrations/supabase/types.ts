@@ -205,6 +205,53 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_reviews: {
+        Row: {
+          admin_replied_at: string | null
+          admin_reply: string | null
+          comment: string
+          created_at: string
+          customer_name: string
+          id: string
+          is_featured: boolean
+          post_id: string | null
+          rating: number
+          status: string
+        }
+        Insert: {
+          admin_replied_at?: string | null
+          admin_reply?: string | null
+          comment: string
+          created_at?: string
+          customer_name: string
+          id?: string
+          is_featured?: boolean
+          post_id?: string | null
+          rating: number
+          status?: string
+        }
+        Update: {
+          admin_replied_at?: string | null
+          admin_reply?: string | null
+          comment?: string
+          created_at?: string
+          customer_name?: string
+          id?: string
+          is_featured?: boolean
+          post_id?: string | null
+          rating?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_reviews_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hero_slide_clicks: {
         Row: {
           created_at: string
@@ -620,6 +667,24 @@ export type Database = {
         }
         Relationships: []
       }
+      review_settings: {
+        Row: {
+          auto_approve: boolean
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          auto_approve?: boolean
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          auto_approve?: boolean
+          id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       security_audit_logs: {
         Row: {
           action: string
@@ -836,6 +901,7 @@ export type Database = {
         Args: { p_id: string; p_session: string; p_slide: string }
         Returns: undefined
       }
+      review_stats: { Args: never; Returns: Json }
       roles_security_data: { Args: never; Returns: Json }
       save_ip_security_settings: {
         Args: {
