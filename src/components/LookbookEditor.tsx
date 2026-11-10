@@ -21,7 +21,7 @@ export function LookbookEditor({ album, onSaved, onClose }: { album: AlbumGaller
   const [point, setPoint] = useState({ x: 50, y: 50 });
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const qc = useQueryClient();
-  const posts = useQuery({ queryKey: ['lookbook-posts'], queryFn: async () => { const { data, error } = await supabase.from('posts').select('*').order('title'); if (error) throw error; return data; } });
+  const posts = useQuery({ queryKey: ['lookbook-posts'], queryFn: async () => { const { data, error } = await supabase.from('posts').select('id,title,description,category,cover_url,file_url,file_name,device_support,is_paid,price,created_at,updated_at').order('title'); if (error) throw error; return data.map(p => ({ ...p, play_url: null })); } });
   const photo = album?.images.find(i => i.id === selected);
   const tags = album?.hotspots.filter(h => h.image_id === selected) ?? [];
   async function run(action: () => Promise<void>, message: string) {
