@@ -21,3 +21,5 @@
 - Hero button click ingestion requires same-origin bounded requests and a recent recorded analytics session; service-only RPCs deduplicate and rate-limit writes, and admin-only aggregates report actual clicks without public counters.
 - IP firewall runs in src/server.ts only for Cloudflare-edge requests (request.cf present) and fails open; why: cf-connecting-ip is only trustworthy at the edge and a DB outage must not take the site down.
 - Bottom CTA uses singleton settings with slides.manage write policies and a shared renderer; this keeps admin previews and homepage output consistent.
+- Lookbooks use separate album, image and hotspot records with slides.manage write/read-draft policies; private storage grants public reads only for published albums and uses short-lived signed URLs to limit access after unpublishing.
+- Lookbook hotspots use image-relative percentages on uncropped images, and the shared gallery renderer handles grid, Embla slider and masonry layouts so editor previews match the public gallery.
