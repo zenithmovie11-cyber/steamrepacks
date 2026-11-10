@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Star, ShieldCheck, MessageSquareQuote, Pin, Users } from 'lucide-react';
+import { Star, ShieldCheck, MessageSquareQuote, Pin, Users, BadgeCheck, Store } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,8 +16,8 @@ export const reviewsKey = ['reviews'] as const;
 export function Stars({ value, onChange, size = 'size-4' }: { value: number; onChange?: (n: number) => void; size?: string }) {
   return <span className="inline-flex gap-0.5" aria-label={`${value} of 5 stars`}>
     {[1, 2, 3, 4, 5].map(n => onChange
-      ? <button key={n} type="button" onClick={() => onChange(n)} aria-label={`${n} stars`}><Star className={`${size} ${n <= value ? 'fill-warning text-warning' : 'text-muted-foreground'}`} /></button>
-      : <Star key={n} className={`${size} ${n <= value ? 'fill-warning text-warning' : 'text-muted-foreground'}`} />)}
+      ? <button key={n} type="button" onClick={() => onChange(n)} aria-label={`${n} stars`}><Star className={`${size} ${n <= value ? 'star-gold' : 'star-empty'}`} /></button>
+      : <Star key={n} className={`${size} ${n <= value ? 'star-gold' : 'star-empty'}`} />)}
   </span>;
 }
 
@@ -35,23 +35,35 @@ export function CustomerReviews({ posts }: { posts: Post[] }) {
   const positive = s.total ? Math.round(((s.dist[3]! + s.dist[4]!) / s.total) * 100) : 0;
   const postName = (id: string | null) => posts.find(p => p.id === id)?.title;
 
-  return <section className="mt-14" aria-labelledby="reviews-title">
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-      <div><h2 id="reviews-title" className="text-2xl font-semibold">Customer Reviews</h2><p className="text-sm text-muted-foreground">What our customers say about us</p></div>
-      <Button onClick={() => setOpen(true)}><Star /> Write a review</Button>
+  const initials = (name: string) => name.trim().split(/\s+/).slice(0, 2).map(w => w[0]?.toUpperCase() ?? '').join('') || '?';
+
+  return <section className="mt-16 border-t pt-10" aria-labelledby="reviews-title">
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <div><p className="eyebrow mb-2">Trust &amp; credibility</p><h2 id="reviews-title" className="text-3xl font-semibold">Customer Reviews</h2><p className="mt-1 text-sm text-muted-foreground">What our customers say about us</p></div>
+      <Button size="lg" onClick={() => setOpen(true)}><Star /> Write a review</Button>
     </div>
-    <div className="mb-8 grid gap-4 sm:grid-cols-3">
-      <div className="metric-card flex items-center gap-4 rounded-lg border bg-card p-5"><span className="metric-icon flex size-11 items-center justify-center rounded-md"><Star className="size-5" /></span><div><p className="text-xs text-muted-foreground">Average rating</p><p className="mt-1 text-2xl font-semibold tabular-nums">{Number(s.average).toFixed(1)} <span className="text-sm text-muted-foreground">/ 5</span></p></div></div>
-      <div className="metric-card flex items-center gap-4 rounded-lg border bg-card p-5"><span className="metric-icon flex size-11 items-center justify-center rounded-md"><Users className="size-5" /></span><div><p className="text-xs text-muted-foreground">Verified reviews</p><p className="mt-1 text-2xl font-semibold tabular-nums">{s.total}</p></div></div>
-      <div className="metric-card flex items-center gap-4 rounded-lg border bg-card p-5"><span className="metric-icon flex size-11 items-center justify-center rounded-md"><ShieldCheck className="size-5" /></span><div><p className="text-xs text-muted-foreground">Happy customers (4–5★)</p><p className="mt-1 text-2xl font-semibold tabular-nums">{positive}%</p></div></div>
+    <div className="mb-10 grid gap-4 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
+      <div className="premium-card trust-card flex flex-col justify-center gap-3 p-6">
+        <div className="flex items-end gap-2"><span className="text-5xl font-semibold tabular-nums leading-none">{Number(s.average).toFixed(1)}</span><span className="pb-1 text-sm text-muted-foreground">/ 5</span></div>
+        <Stars value={Math.round(Number(s.average))} size="size-5" />
+        <div className="space-y-1.5">{[5, 4, 3, 2, 1].map(n => { const c = s.dist[n - 1] ?? 0; const pct = s.total ? (c / s.total) * 100 : 0; return <div key={n} className="flex items-center gap-2 text-xs text-muted-foreground"><span className="w-3 tabular-nums">{n}</span><div className="rating-track h-1.5 flex-1 overflow-hidden rounded-full"><div className="rating-fill h-full rounded-full" style={{ width: `${pct}%` }} /></div><span className="w-6 text-right tabular-nums">{c}</span></div>; })}</div>
+      </div>
+      <div className="metric-card premium-card trust-card flex flex-col justify-between gap-4 p-6"><span className="metric-icon flex size-11 items-center justify-center rounded-xl"><Star className="size-5" /></span><div><p className="text-xs text-muted-foreground">Average rating</p><p className="mt-1 text-3xl font-semibold tabular-nums">{Number(s.average).toFixed(1)}</p></div></div>
+      <div className="metric-card premium-card trust-card flex flex-col justify-between gap-4 p-6"><span className="metric-icon flex size-11 items-center justify-center rounded-xl"><Users className="size-5" /></span><div><p className="text-xs text-muted-foreground">Approved reviews</p><p className="mt-1 text-3xl font-semibold tabular-nums">{s.total}</p></div></div>
+      <div className="metric-card premium-card trust-card flex flex-col justify-between gap-4 p-6"><span className="metric-icon flex size-11 items-center justify-center rounded-xl"><ShieldCheck className="size-5" /></span><div><p className="text-xs text-muted-foreground">Happy customers (4–5★)</p><p className="mt-1 text-3xl font-semibold tabular-nums">{positive}%</p></div></div>
     </div>
-    {list.length === 0 ? <p className="rounded-lg border bg-card p-8 text-center text-sm text-muted-foreground">No reviews yet — be the first to share your feedback.</p> :
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {list.map(r => <article key={r.id} className={`flex flex-col gap-3 rounded-lg border bg-card p-5 ${r.is_featured ? 'border-primary' : ''}`}>
-          <div className="flex items-center justify-between"><Stars value={r.rating} />{r.is_featured && <span className="inline-flex items-center gap-1 text-xs font-medium text-primary"><Pin className="size-3" /> Featured</span>}</div>
-          <p className="flex-1 text-sm"><MessageSquareQuote className="mr-1 inline size-4 text-muted-foreground" />{r.comment}</p>
-          <div className="text-xs text-muted-foreground"><span className="font-medium text-foreground">{r.customer_name}</span>{postName(r.post_id) && <> · {postName(r.post_id)}</>} · {new Date(r.created_at).toLocaleDateString()}</div>
-          {r.admin_reply && <div className="rounded-md bg-muted p-3 text-xs"><p className="mb-1 font-medium">Reply from the shop</p><p>{r.admin_reply}</p></div>}
+    {list.length === 0 ? <div className="premium-card p-10 text-center text-sm text-muted-foreground"><MessageSquareQuote className="mx-auto mb-3 size-8 text-primary" />No reviews yet — be the first to share your feedback.</div> :
+      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {list.map(r => <article key={r.id} className={`review-card premium-card flex flex-col gap-4 p-6 ${r.is_featured ? 'is-featured' : ''}`}>
+          <MessageSquareQuote className="review-quote size-10" aria-hidden />
+          <div className="relative flex items-center gap-3">
+            <span className="review-avatar flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold">{initials(r.customer_name)}</span>
+            <div className="min-w-0"><p className="truncate font-semibold">{r.customer_name}</p><span className="verified-pill mt-0.5 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium"><BadgeCheck className="size-3" /> Approved review</span></div>
+          </div>
+          <div className="flex items-center justify-between gap-2"><Stars value={r.rating} />{r.is_featured && <span className="featured-pill inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold"><Pin className="size-3" /> Featured</span>}</div>
+          <p className="flex-1 break-words text-sm leading-relaxed">“{r.comment}”</p>
+          <div className="text-xs text-muted-foreground">{postName(r.post_id) && <><span className="font-medium text-foreground">{postName(r.post_id)}</span> · </>}{new Date(r.created_at).toLocaleDateString()}</div>
+          {r.admin_reply && <div className="reply-bubble rounded-lg p-3 text-xs"><p className="mb-1 flex items-center gap-1 font-semibold"><Store className="size-3" /> Reply from the shop</p><p className="break-words leading-relaxed">{r.admin_reply}</p></div>}
         </article>)}
       </div>}
     <ReviewDialog open={open} onOpenChange={setOpen} posts={posts} />
