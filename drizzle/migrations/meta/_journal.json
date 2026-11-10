@@ -1,41 +1,5 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1794107324028,
-      "tag": "0000_base_schema",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1794107389975,
-      "tag": "0001_roles_security_management",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1794107448280,
-      "tag": "0002_ip_security_controls",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1794183563994,
-      "tag": "0003_announcement_bar",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1794270071922,
-      "tag": "0004_lookbook_gallery",
-      "breakpoints": true
-    }
-  ]
+  "entries": []
 }
