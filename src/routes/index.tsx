@@ -23,6 +23,7 @@ import { BottomCTA } from "@/components/BottomCTA";
 import { useOffers, bestOffer, type Offer } from "@/lib/offers";
 import { parsePrice } from "@/lib/cart";
 import { useBottomCta } from '@/hooks/use-bottom-cta';
+import { LookbookGallery } from '@/components/LookbookGallery';
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -218,6 +219,7 @@ function Index() {
             gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
           }}
         />}
+        <LookbookGallery posts={posts} onSelect={setViewing} />
       </main>
 
       <Dialog open={!!viewing} onOpenChange={(o) => !o && setViewing(null)}>

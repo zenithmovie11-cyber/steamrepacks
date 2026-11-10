@@ -1,4 +1,7 @@
 # Roadmap
+- [ ] Finish Lookbook admin albums, image uploads/reordering/deletion and product hotspots
+- [ ] Show published Lookbooks below Bottom CTA in grid, slider and masonry layouts
+- [ ] Verify authenticated Lookbook save, publish/draft, tagging and public gallery
 - [ ] Add persisted admin Bottom Banner CTA controls and connect the homepage
 - [ ] Verify CTA saves, visibility, buttons, images and restricted access
 - [x] Add IP Security & Block below Roles & Security with real block/allow lists and request logs; establish trusted IP provenance before enforcement

@@ -414,6 +414,116 @@ export type Database = {
         }
         Relationships: []
       }
+      lookbook_hotspots: {
+        Row: {
+          id: string
+          image_id: string
+          post_id: string
+          x: number
+          y: number
+        }
+        Insert: {
+          id?: string
+          image_id: string
+          post_id: string
+          x: number
+          y: number
+        }
+        Update: {
+          id?: string
+          image_id?: string
+          post_id?: string
+          x?: number
+          y?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lookbook_hotspots_image_id_fkey"
+            columns: ["image_id"]
+            isOneToOne: false
+            referencedRelation: "lookbook_images"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lookbook_hotspots_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lookbook_images: {
+        Row: {
+          caption: string
+          created_at: string
+          id: string
+          lookbook_id: string
+          sort_order: number
+          storage_path: string
+        }
+        Insert: {
+          caption?: string
+          created_at?: string
+          id?: string
+          lookbook_id: string
+          sort_order?: number
+          storage_path: string
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          id?: string
+          lookbook_id?: string
+          sort_order?: number
+          storage_path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lookbook_images_lookbook_id_fkey"
+            columns: ["lookbook_id"]
+            isOneToOne: false
+            referencedRelation: "lookbooks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lookbooks: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          is_published: boolean
+          layout: string
+          short_story: string
+          theme: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_published?: boolean
+          layout?: string
+          short_story?: string
+          theme?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          is_published?: boolean
+          layout?: string
+          short_story?: string
+          theme?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string
