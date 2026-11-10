@@ -23,6 +23,7 @@ const adminItems = [
   { title: "Bottom Banner CTA", url: "/bottom-cta", icon: Megaphone, tone: "bg-info-soft text-info", permission: 'slides.manage' },
   { title: "Announcement Bar", url: "/announcement-bar", icon: BellRing, tone: "bg-warning-soft text-warning", permission: 'slides.manage' },
   { title: "Lookbook Gallery", url: "/lookbooks", icon: Images, tone: "bg-success-soft text-success", permission: 'slides.manage' },
+  { title: "Customer Reviews", url: "/reviews", icon: Star, tone: "bg-warning-soft text-warning", permission: 'slides.manage' },
   { title: "Roles & Security", url: "/admin", icon: KeyRound, tone: "bg-primary/10 text-primary", permission: 'roles.manage' },
   { title: "IP Security & Block", url: "/ip-security", icon: ShieldBan, tone: "bg-destructive/10 text-destructive", permission: 'roles.manage' },
 ] as const;
