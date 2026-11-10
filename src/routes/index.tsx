@@ -174,30 +174,29 @@ function Index() {
         ) : (
           <div ref={gridRef} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {shown.map((p) => (
-              <article key={p.id} className="library-post card-lift flex flex-col overflow-hidden rounded-lg border bg-card">
-                <Button variant="ghost" onClick={() => setViewing(p)} className="block h-auto w-full whitespace-normal rounded-none p-0 text-left hover:bg-card">
-                  <div className="aspect-video overflow-hidden border-b bg-muted">
+              <article key={p.id} className="library-post premium-card group flex flex-col overflow-hidden">
+                <Button variant="ghost" onClick={() => setViewing(p)} className="block h-auto w-full whitespace-normal rounded-none p-0 text-left hover:bg-transparent">
+                  <div className="premium-media aspect-video border-b">
                     {p.cover_url ? (
-                      <img src={p.cover_url} alt={p.title} loading="lazy" className="size-full object-cover " />
+                      <img src={p.cover_url} alt={p.title} loading="lazy" className="size-full object-cover" />
                     ) : (
                       <div className="post-placeholder flex size-full items-center justify-center"><FileText className="size-12" strokeWidth={1.25} /></div>
                     )}
+                    <div className="absolute inset-x-3 top-3 z-10 flex items-start justify-between gap-2">
+                      <span className="glass-pill">{p.category}</span>
+                      {p.is_paid ? <span className="glass-pill pill-paid">{priceLabel(p, offers)}</span> : <span className="glass-pill pill-free">Free</span>}
+                    </div>
                   </div>
                   <div className="space-y-3 p-5">
                     <div className="flex flex-wrap gap-1.5">
-                      <span className="badge">{p.category}</span>
                       <span className="badge">{p.device_support}</span>
-                      {p.is_paid ? (
-                        <PriceBadge post={p} offers={offers} />
-                      ) : (
-                        <span className="badge badge-free">Free</span>
-                      )}
+                      {p.is_paid && <PriceBadge post={p} offers={offers} />}
                     </div>
-                    <h2 className="line-clamp-2 text-lg leading-snug font-semibold">{p.title}</h2>
+                    <h2 className="line-clamp-2 text-lg leading-snug font-semibold transition-colors group-hover:text-primary">{p.title}</h2>
                     <p className="flex items-center gap-1.5 text-xs text-muted-foreground"><Clock className="size-3" />{formatTime(p.created_at)}</p>
                   </div>
                 </Button>
-                <div className="mt-auto flex gap-2 p-5 pt-0">
+                <div className="mt-auto flex gap-2 border-t p-4">
                   {p.is_paid && !p.play_url && <CartButton id={p.id} className="flex-1" />}
                   {p.play_url && <PlayButton url={p.play_url} className="flex-1" />}
                   {(can('posts.edit') || can('posts.delete')) && (
@@ -303,6 +302,12 @@ function CartButton({ id, className }: { id: string; className?: string }) {
       {added ? <><Check /> In cart</> : <><ShoppingCart /> Add to cart</>}
     </Button>
   );
+}
+
+function priceLabel(post: Post, offers: Offer[]) {
+  const price = parsePrice(post.price);
+  const deal = bestOffer(post.id, price, offers, Date.now());
+  return deal ? `৳${deal.price}` : post.price || "Paid";
 }
 
 function PriceBadge({ post, offers }: { post: Post; offers: Offer[] }) {
