@@ -31,7 +31,7 @@ const tone: Record<string, string> = { Active: "bg-success-soft text-success", S
 
 function Offers() {
   const { user, can } = useSession();
-  const allowed = can("posts.edit");
+  const allowed = can("offers.manage");
   const qc = useQueryClient();
   const offers = useOffers();
   const [editing, setEditing] = useState<Offer | null>(null);

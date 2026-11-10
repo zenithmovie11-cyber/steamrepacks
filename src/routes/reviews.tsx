@@ -29,7 +29,7 @@ type Filter = 'all' | ReviewStatus | 'featured';
 
 function ReviewsPage() {
   const { can, accessLoading } = useSession();
-  const allowed = can('slides.manage');
+  const allowed = can('reviews.manage');
   return <SidebarProvider><AppSidebar /><div className="min-h-screen min-w-0 flex-1">
     <header className="dashboard-header flex items-center gap-3 border-b px-5 py-6"><SidebarTrigger /><span className="text-sm font-medium">Admin Panel / Customer Reviews</span></header>
     <main className="mx-auto max-w-6xl px-5 py-8">

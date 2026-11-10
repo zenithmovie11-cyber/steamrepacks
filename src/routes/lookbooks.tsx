@@ -24,7 +24,7 @@ export const Route = createFileRoute('/lookbooks')({
 
 function LookbooksPage() {
   const { can, accessLoading } = useSession();
-  const allowed = can('slides.manage');
+  const allowed = can('lookbooks.manage');
   const albums = useLookbooks(true, allowed);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
