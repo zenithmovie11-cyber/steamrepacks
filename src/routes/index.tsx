@@ -25,6 +25,7 @@ import { parsePrice } from "@/lib/cart";
 import { useBottomCta } from '@/hooks/use-bottom-cta';
 import { LookbookGallery } from '@/components/LookbookGallery';
 import { CustomerReviews } from '@/components/CustomerReviews';
+import { NewsletterSignup } from '@/components/NewsletterSignup';
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -221,6 +222,7 @@ function Index() {
         />}
         <LookbookGallery posts={posts} onSelect={setViewing} />
         <CustomerReviews posts={posts} />
+        <NewsletterSignup />
       </main>
 
       <Dialog open={!!viewing} onOpenChange={(o) => !o && setViewing(null)}>
