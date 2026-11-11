@@ -1,19 +1,20 @@
 # Roadmap
-- [ ] Complete remaining requested checkout work and verify restored administrator access
-- [ ] Connect promotional email sending and automatic payments — requires user-owned service accounts
-- [ ] Restore protected Administrator access for the three original admin emails
-- [ ] Add newsletter coupon validation, configurable fixed discount, and secure checkout totals
-- [ ] Finish campaign drafting; real email delivery waits for an email-service connection
-- [ ] Finish Lookbook admin albums, image uploads/reordering/deletion and product hotspots
-- [ ] Show published Lookbooks below Bottom CTA in grid, slider and masonry layouts
-- [ ] Verify authenticated Lookbook save, publish/draft, tagging and public gallery
-- [ ] Add persisted admin Bottom Banner CTA controls and connect the homepage
-- [ ] Verify CTA saves, visibility, buttons, images and restricted access
+- [ ] Verify authenticated checkout and admin save flows — blocked: no signed-up auth users; original admin must sign in in preview
+- [ ] Connect promotional email sending, coupon emails and open/click tracking — blocked: no marketing service connected; Gmail address alone is not a service connection
+- [ ] Connect automatic bKash payments — blocked: merchant service connection not supplied
+- [x] Restore protected Administrator access for the three original admin emails
+- [x] Add newsletter coupon validation, configurable fixed discount, expiry and secure checkout totals
+- [x] Finish device-local campaign drafting and HTML export (not sending)
+- [x] Finish Lookbook admin albums, image uploads/reordering/deletion and product hotspots
+- [x] Show published Lookbooks below Bottom CTA in grid, slider and masonry layouts
+- [ ] Verify authenticated Lookbook save, publish/draft, tagging and public gallery — blocked: original admin must sign in and supply real album images
+- [x] Add persisted admin Bottom Banner CTA controls and connect the homepage
+- [ ] Verify CTA saves, visibility, buttons, images and restricted access — blocked: no signed-up auth user
 - [x] Add IP Security & Block below Roles & Security with real block/allow lists and request logs; establish trusted IP provenance before enforcement
 - [x] Confirm app-level rate-limit tradeoff; hosting-level DDoS protection and verified VPN/proxy intelligence require supported external capabilities
-- [ ] Build Roles & Security below Hero Slides with email assignments, custom roles, permission matrix and real audit logs
-- [ ] Enforce permissions across posts, slides and reports; protect the three original administrators
-- [ ] Verify signed-in role management and denied unauthorized access
+- [x] Build Roles & Security below Hero Slides with email assignments, custom roles, permission matrix and real audit logs
+- [x] Enforce permissions across posts, slides and reports; protect the three original administrators
+- [ ] Verify signed-in role management — blocked: original admin must sign in; signed-out denial verified
 - [x] Apply colorful SaaS dashboard theme across the app and remove the dark hero overlay
 - [x] Verify library and signed-in admin pages, mobile overflow and slider tests; live slide appearance unavailable because no slides are saved
 - [x] Add slider settings, expiring offers, video loops and real slide click analytics
@@ -28,6 +29,6 @@
 - [x] Verify attribution, access restrictions and Analytics display
 - [x] Clear copied migrations and scaffold an empty migration set for this remix
 - [x] Add per-section permissions (offers, announcement, bottom CTA, lookbooks, reviews, IP security) to the matrix and role editor
-- [ ] Newsletter signup on homepage (below reviews) with instant coupon reveal and duplicate-safe saving
-- [ ] Newsletter admin: subscribers list, search/filter, CSV export, unsubscribe/delete, settings & design, analytics, newsletter.manage permission
+- [x] Newsletter signup on homepage (below reviews) with instant coupon reveal and duplicate-safe saving
+- [x] Newsletter admin: subscribers list, search/filter, CSV export, unsubscribe/delete, settings & design, analytics, newsletter.manage permission
 - [ ] Newsletter broadcasts and open/click rates — blocked: needs a marketing email service (app emails cannot send newsletters)

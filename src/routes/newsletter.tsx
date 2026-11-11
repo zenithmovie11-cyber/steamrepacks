@@ -17,6 +17,7 @@ import { newsletterKey } from '@/hooks/use-newsletter';
 import { supabase } from '@/integrations/supabase/client';
 import { couponSchema, newsletterDefaults, newsletterSchema, subscribersCsv, type NewsletterSettings, type NewsletterStats, type Subscriber } from '@/lib/newsletter';
 import { rewardSchema } from '@/lib/checkout';
+import { CampaignBuilder } from '@/components/CampaignBuilder';
 
 export const Route = createFileRoute('/newsletter')({
   head: () => ({ meta: [
@@ -76,9 +77,10 @@ function Manager() {
       </div>
     </div>
     <Tabs defaultValue="subscribers">
-      <TabsList><TabsTrigger value="subscribers">Subscribers</TabsTrigger><TabsTrigger value="design">Design & settings</TabsTrigger></TabsList>
+      <TabsList className="h-auto flex-wrap"><TabsTrigger value="subscribers">Subscribers</TabsTrigger><TabsTrigger value="campaigns">Campaign drafts</TabsTrigger><TabsTrigger value="design">Design & settings</TabsTrigger></TabsList>
       <TabsContent value="subscribers" className="mt-6"><Subscribers /></TabsContent>
       <TabsContent value="design" className="mt-6"><Design /></TabsContent>
+      <TabsContent value="campaigns" className="mt-6"><CampaignBuilder /></TabsContent>
     </Tabs>
     <p className="mt-10 flex gap-2 rounded-lg border bg-muted/40 p-4 text-sm text-muted-foreground"><Info className="mt-0.5 size-4 shrink-0" />Sending newsletters, offer blasts and open/click tracking need a dedicated marketing email service. Export the active list as CSV to use it there.</p>
   </>;
