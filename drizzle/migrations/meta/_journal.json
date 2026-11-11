@@ -1,41 +1,5 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1794285068251,
-      "tag": "0000_customer_reviews",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1794285303338,
-      "tag": "0001_tighten_public_read_rules",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1794289052073,
-      "tag": "0002_tighten_review_policies",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1794290949961,
-      "tag": "0003_granular_section_permissions",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1794370745482,
-      "tag": "0004_newsletter_signup",
-      "breakpoints": true
-    }
-  ]
+  "entries": []
 }
