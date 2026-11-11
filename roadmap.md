@@ -1,4 +1,7 @@
 # Roadmap
+- [ ] Restore protected Administrator access for the three original admin emails
+- [ ] Add newsletter coupon validation, configurable fixed discount, and secure checkout totals
+- [ ] Finish campaign drafting; real email delivery waits for an email-service connection
 - [ ] Finish Lookbook admin albums, image uploads/reordering/deletion and product hotspots
 - [ ] Show published Lookbooks below Bottom CTA in grid, slider and masonry layouts
 - [ ] Verify authenticated Lookbook save, publish/draft, tagging and public gallery
