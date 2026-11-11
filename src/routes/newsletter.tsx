@@ -16,6 +16,7 @@ import { useSession } from '@/hooks/use-session';
 import { newsletterKey } from '@/hooks/use-newsletter';
 import { supabase } from '@/integrations/supabase/client';
 import { couponSchema, newsletterDefaults, newsletterSchema, subscribersCsv, type NewsletterSettings, type NewsletterStats, type Subscriber } from '@/lib/newsletter';
+import { rewardSchema } from '@/lib/checkout';
 
 export const Route = createFileRoute('/newsletter')({
   head: () => ({ meta: [
@@ -174,20 +175,22 @@ function Design() {
   const settings = useQuery({ queryKey: [...adminKey, 'settings'], queryFn: async () => {
     const [{ data, error }, reward] = await Promise.all([
       supabase.from('newsletter_settings').select('id,is_enabled,badge_text,title,description,placeholder,button_text,success_message,bg_color,text_color,button_color,button_text_color').eq('id', 1).maybeSingle(),
-      supabase.from('newsletter_reward').select('coupon_code').eq('id', 1).maybeSingle(),
+      supabase.from('newsletter_reward').select('coupon_code,discount_amount,expires_at').eq('id', 1).maybeSingle(),
     ]);
     if (error) throw error; if (reward.error) throw reward.error;
-    return { settings: data ? { ...newsletterDefaults, ...data, id: 1 } as NewsletterSettings : newsletterDefaults, coupon: reward.data?.coupon_code ?? '' };
+    return { settings: data ? { ...newsletterDefaults, ...data, id: 1 } as NewsletterSettings : newsletterDefaults, coupon: reward.data?.coupon_code ?? '', amount: Number(reward.data?.discount_amount ?? 0), expiry: reward.data?.expires_at ?? null };
   } });
   if (settings.isPending) return <Loader2 className="animate-spin" />;
   if (settings.error) return <p role="alert">Settings could not load. <Button variant="outline" onClick={() => settings.refetch()}>Retry</Button></p>;
-  return <DesignForm initial={settings.data.settings} initialCoupon={settings.data.coupon} />;
+  return <DesignForm initial={settings.data.settings} initialCoupon={settings.data.coupon} initialAmount={settings.data.amount} initialExpiry={settings.data.expiry} />;
 }
 
-function DesignForm({ initial, initialCoupon }: { initial: NewsletterSettings; initialCoupon: string }) {
+function DesignForm({ initial, initialCoupon, initialAmount, initialExpiry }: { initial: NewsletterSettings; initialCoupon: string; initialAmount: number; initialExpiry: string | null }) {
   const qc = useQueryClient();
   const [draft, setDraft] = useState(initial);
   const [coupon, setCoupon] = useState(initialCoupon);
+  const [amount, setAmount] = useState(initialAmount);
+  const [expiry, setExpiry] = useState(initialExpiry ? new Date(new Date(initialExpiry).getTime() - new Date(initialExpiry).getTimezoneOffset() * 60000).toISOString().slice(0, 16) : '');
   const [saving, setSaving] = useState(false);
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -195,12 +198,16 @@ function DesignForm({ initial, initialCoupon }: { initial: NewsletterSettings; i
     if (!parsed.success) { toast.error(parsed.error.issues[0]?.message ?? 'Check the settings'); return; }
     const code = couponSchema.safeParse(coupon);
     if (!code.success) { toast.error(code.error.issues[0]?.message ?? 'Check the coupon'); return; }
+    const expiryDate = expiry ? new Date(expiry) : null;
+    if (expiryDate && !Number.isFinite(expiryDate.getTime())) { toast.error('Check the expiry date'); return; }
+    const reward = rewardSchema.safeParse({ discount_amount: amount, expires_at: expiryDate?.toISOString() ?? null });
+    if (!reward.success) { toast.error('Enter a valid non-negative discount'); return; }
     setSaving(true);
     try {
       const now = new Date().toISOString();
       const [a, b] = await Promise.all([
         supabase.from('newsletter_settings').upsert({ ...parsed.data, updated_at: now }),
-        supabase.from('newsletter_reward').upsert({ id: 1, coupon_code: code.data, updated_at: now }),
+        supabase.from('newsletter_reward').upsert({ id: 1, coupon_code: code.data, ...reward.data, updated_at: now }),
       ]);
       if (a.error) throw a.error; if (b.error) throw b.error;
       setCoupon(code.data);
@@ -215,6 +222,8 @@ function DesignForm({ initial, initialCoupon }: { initial: NewsletterSettings; i
       {textFields.map(([key, label]) => <div key={key} className="grid gap-2"><Label htmlFor={`nl-${key}`}>{label}</Label><Input id={`nl-${key}`} value={String(draft[key])} onChange={e => setDraft({ ...draft, [key]: e.target.value })} /></div>)}
       <div className="grid gap-2"><Label htmlFor="nl-description">Description</Label><Textarea id="nl-description" rows={3} value={draft.description} onChange={e => setDraft({ ...draft, description: e.target.value })} /></div>
       <div className="grid gap-2 rounded-lg border bg-card p-4"><Label htmlFor="nl-coupon" className="flex items-center gap-1.5"><Gift className="size-4" />Welcome coupon code</Label><Input id="nl-coupon" value={coupon} placeholder="e.g. WELCOME10 — leave empty for no coupon" onChange={e => setCoupon(e.target.value.toUpperCase())} /><p className="text-xs text-muted-foreground">Shown only to people right after they subscribe. Visitors can't see it otherwise.</p></div>
+      <div className="grid gap-2"><Label htmlFor="nl-discount">Fixed discount (৳)</Label><Input id="nl-discount" type="number" min="0" max="1000000" step="0.01" value={amount} onChange={e => setAmount(Number(e.target.value))} /></div>
+      <div className="grid gap-2"><Label htmlFor="nl-expiry">Coupon expiry (local time)</Label><Input id="nl-expiry" type="datetime-local" value={expiry} onChange={e => setExpiry(e.target.value)} /></div>
       <div className="grid grid-cols-2 gap-4">{colorFields.map(([key, label]) => <div key={key} className="grid gap-2"><Label htmlFor={`nl-${key}`}>{label} colour</Label><div className="flex gap-2"><input type="color" aria-label={`${label} colour picker`} value={String(draft[key])} onChange={e => setDraft({ ...draft, [key]: e.target.value })} className="h-10 w-12 cursor-pointer rounded border bg-card" /><Input id={`nl-${key}`} value={String(draft[key])} onChange={e => setDraft({ ...draft, [key]: e.target.value })} /></div></div>)}</div>
       <Button type="submit" disabled={saving} className="justify-self-start">{saving ? <Loader2 className="animate-spin" /> : <Save />} Save settings</Button>
     </form>

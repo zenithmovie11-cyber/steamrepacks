@@ -24,3 +24,4 @@
 - Lookbooks use separate album, image and hotspot records with lookbooks.manage write/read-draft policies; private storage grants public reads only for published albums and uses short-lived signed URLs to limit access after unpublishing.
 - Lookbook hotspots use image-relative percentages on uncropped images, and the shared gallery renderer handles grid, Embla slider and masonry layouts so editor previews match the public gallery.
 - Each admin section has its own permission key (src/lib/permissions.ts mirrors the manage_app_role allow-list, my_permissions protected list and RLS checks); why: roles can grant one section without exposing the others, so all three must change together.
+- Checkout prices, live offers and subscriber coupons are recalculated by a database insert trigger using the authenticated buyer; why: browser totals and identity cannot be trusted. Coupon discounts remain disabled until an administrator configures a positive amount.

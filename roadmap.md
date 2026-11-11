@@ -1,4 +1,6 @@
 # Roadmap
+- [ ] Complete remaining requested checkout work and verify restored administrator access
+- [ ] Connect promotional email sending and automatic payments — requires user-owned service accounts
 - [ ] Restore protected Administrator access for the three original admin emails
 - [ ] Add newsletter coupon validation, configurable fixed discount, and secure checkout totals
 - [ ] Finish campaign drafting; real email delivery waits for an email-service connection

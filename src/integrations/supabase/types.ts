@@ -574,16 +574,22 @@ export type Database = {
       newsletter_reward: {
         Row: {
           coupon_code: string
+          discount_amount: number
+          expires_at: string | null
           id: number
           updated_at: string
         }
         Insert: {
           coupon_code?: string
+          discount_amount?: number
+          expires_at?: string | null
           id?: number
           updated_at?: string
         }
         Update: {
           coupon_code?: string
+          discount_amount?: number
+          expires_at?: string | null
           id?: number
           updated_at?: string
         }
@@ -675,7 +681,9 @@ export type Database = {
           address: string
           bkash_number: string
           city: string
+          coupon_code: string | null
           created_at: string
+          discount_amount: number
           email: string
           full_name: string
           id: string
@@ -683,6 +691,7 @@ export type Database = {
           phone: string
           post_ids: string[]
           status: string
+          subtotal: number
           total: number
           user_id: string
         }
@@ -690,7 +699,9 @@ export type Database = {
           address: string
           bkash_number: string
           city: string
+          coupon_code?: string | null
           created_at?: string
+          discount_amount?: number
           email: string
           full_name: string
           id?: string
@@ -698,6 +709,7 @@ export type Database = {
           phone: string
           post_ids: string[]
           status?: string
+          subtotal?: number
           total?: number
           user_id?: string
         }
@@ -705,7 +717,9 @@ export type Database = {
           address?: string
           bkash_number?: string
           city?: string
+          coupon_code?: string | null
           created_at?: string
+          discount_amount?: number
           email?: string
           full_name?: string
           id?: string
@@ -713,6 +727,7 @@ export type Database = {
           phone?: string
           post_ids?: string[]
           status?: string
+          subtotal?: number
           total?: number
           user_id?: string
         }
@@ -926,6 +941,10 @@ export type Database = {
       assign_app_role: {
         Args: { p_email: string; p_role: string }
         Returns: undefined
+      }
+      checkout_quote: {
+        Args: { p_coupon?: string; p_post_ids: string[] }
+        Returns: Json
       }
       dev_console_overview: { Args: never; Returns: Json }
       enforce_ip_security: {
