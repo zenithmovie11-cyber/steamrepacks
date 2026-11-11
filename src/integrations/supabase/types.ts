@@ -571,6 +571,105 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_reward: {
+        Row: {
+          coupon_code: string
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          coupon_code?: string
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          coupon_code?: string
+          id?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_settings: {
+        Row: {
+          badge_text: string
+          bg_color: string
+          button_color: string
+          button_text: string
+          button_text_color: string
+          description: string
+          id: number
+          is_enabled: boolean
+          placeholder: string
+          success_message: string
+          text_color: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          badge_text?: string
+          bg_color?: string
+          button_color?: string
+          button_text?: string
+          button_text_color?: string
+          description?: string
+          id?: number
+          is_enabled?: boolean
+          placeholder?: string
+          success_message?: string
+          text_color?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          badge_text?: string
+          bg_color?: string
+          button_color?: string
+          button_text?: string
+          button_text_color?: string
+          description?: string
+          id?: number
+          is_enabled?: boolean
+          placeholder?: string
+          success_message?: string
+          text_color?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          coupon_shown: boolean
+          created_at: string
+          email: string
+          id: string
+          source: string
+          status: string
+          unsubscribed_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          coupon_shown?: boolean
+          created_at?: string
+          email: string
+          id?: string
+          source?: string
+          status?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          coupon_shown?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          source?: string
+          status?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string
@@ -858,6 +957,8 @@ export type Database = {
         Returns: string
       }
       my_permissions: { Args: never; Returns: string[] }
+      newsletter_stats: { Args: never; Returns: Json }
+      newsletter_subscribe: { Args: { p_email: string }; Returns: Json }
       post_play_urls: {
         Args: never
         Returns: {

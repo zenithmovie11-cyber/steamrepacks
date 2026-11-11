@@ -18,6 +18,7 @@ import { Route as DevConsoleRouteImport } from './routes/dev-console'
 import { Route as HeroSlidesRouteImport } from './routes/hero-slides'
 import { Route as IpSecurityRouteImport } from './routes/ip-security'
 import { Route as LookbooksRouteImport } from './routes/lookbooks'
+import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as OffersRouteImport } from './routes/offers'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
@@ -68,6 +69,11 @@ const LookbooksRoute = LookbooksRouteImport.update({
   path: '/lookbooks',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsletterRoute = NewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OffersRoute = OffersRouteImport.update({
   id: '/offers',
   path: '/offers',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/hero-slides': typeof HeroSlidesRoute
   '/ip-security': typeof IpSecurityRoute
   '/lookbooks': typeof LookbooksRoute
+  '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
   '/reviews': typeof ReviewsRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/hero-slides': typeof HeroSlidesRoute
   '/ip-security': typeof IpSecurityRoute
   '/lookbooks': typeof LookbooksRoute
+  '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
   '/reviews': typeof ReviewsRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/hero-slides': typeof HeroSlidesRoute
   '/ip-security': typeof IpSecurityRoute
   '/lookbooks': typeof LookbooksRoute
+  '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
   '/reviews': typeof ReviewsRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -147,6 +156,7 @@ export interface FileRouteTypes {
     | '/hero-slides'
     | '/ip-security'
     | '/lookbooks'
+    | '/newsletter'
     | '/offers'
     | '/reviews'
     | '/api/public/analytics'
@@ -162,6 +172,7 @@ export interface FileRouteTypes {
     | '/hero-slides'
     | '/ip-security'
     | '/lookbooks'
+    | '/newsletter'
     | '/offers'
     | '/reviews'
     | '/api/public/analytics'
@@ -177,6 +188,7 @@ export interface FileRouteTypes {
     | '/hero-slides'
     | '/ip-security'
     | '/lookbooks'
+    | '/newsletter'
     | '/offers'
     | '/reviews'
     | '/api/public/analytics'
@@ -193,6 +205,7 @@ export interface RootRouteChildren {
   HeroSlidesRoute: typeof HeroSlidesRoute
   IpSecurityRoute: typeof IpSecurityRoute
   LookbooksRoute: typeof LookbooksRoute
+  NewsletterRoute: typeof NewsletterRoute
   OffersRoute: typeof OffersRoute
   ReviewsRoute: typeof ReviewsRoute
   ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
@@ -264,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LookbooksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/newsletter': {
+      id: '/newsletter'
+      path: '/newsletter'
+      fullPath: '/newsletter'
+      preLoaderRoute: typeof NewsletterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/offers': {
       id: '/offers'
       path: '/offers'
@@ -305,6 +325,7 @@ const rootRouteChildren: RootRouteChildren = {
   HeroSlidesRoute: HeroSlidesRoute,
   IpSecurityRoute: IpSecurityRoute,
   LookbooksRoute: LookbooksRoute,
+  NewsletterRoute: NewsletterRoute,
   OffersRoute: OffersRoute,
   ReviewsRoute: ReviewsRoute,
   ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,

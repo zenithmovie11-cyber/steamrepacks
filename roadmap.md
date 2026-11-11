@@ -23,3 +23,6 @@
 - [x] Verify attribution, access restrictions and Analytics display
 - [x] Clear copied migrations and scaffold an empty migration set for this remix
 - [x] Add per-section permissions (offers, announcement, bottom CTA, lookbooks, reviews, IP security) to the matrix and role editor
+- [ ] Newsletter signup on homepage (below reviews) with instant coupon reveal and duplicate-safe saving
+- [ ] Newsletter admin: subscribers list, search/filter, CSV export, unsubscribe/delete, settings & design, analytics, newsletter.manage permission
+- [ ] Newsletter broadcasts and open/click rates — blocked: needs a marketing email service (app emails cannot send newsletters)
