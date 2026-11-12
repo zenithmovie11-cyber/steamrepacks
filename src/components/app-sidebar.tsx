@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Terminal, Library, Layers, ShieldCheck, ShieldBan, ChartNoAxesCombined, Images, KeyRound, BadgePercent, Megaphone, BellRing, Star, Mail } from "lucide-react";
+import { Terminal, Library, Layers, ShieldCheck, ShieldBan, ChartNoAxesCombined, Images, KeyRound, BadgePercent, Megaphone, BellRing, Star, Mail, PanelBottom } from "lucide-react";
 
 import {
   Sidebar,
@@ -25,6 +25,7 @@ const adminItems = [
   { title: "Lookbook Gallery", url: "/lookbooks", icon: Images, tone: "bg-success-soft text-success", permission: 'lookbooks.manage' },
   { title: "Customer Reviews", url: "/reviews", icon: Star, tone: "bg-warning-soft text-warning", permission: 'reviews.manage' },
   { title: "Newsletter", url: "/newsletter", icon: Mail, tone: "bg-primary/10 text-primary", permission: 'newsletter.manage' },
+  { title: "Footer", url: "/footer", icon: PanelBottom, tone: "bg-info-soft text-info", permission: 'footer.manage' },
   { title: "Roles & Security", url: "/admin", icon: KeyRound, tone: "bg-primary/10 text-primary", permission: 'roles.manage' },
   { title: "IP Security & Block", url: "/ip-security", icon: ShieldBan, tone: "bg-destructive/10 text-destructive", permission: 'security.manage' },
 ] as const;

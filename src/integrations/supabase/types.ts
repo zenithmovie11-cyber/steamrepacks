@@ -252,6 +252,57 @@ export type Database = {
           },
         ]
       }
+      footer_settings: {
+        Row: {
+          address: string
+          brand_name: string
+          contact_email: string
+          copyright_text: string
+          description: string
+          id: number
+          is_visible: boolean
+          logo_url: string
+          phone: string
+          policies: Json
+          quick_links: Json
+          socials: Json
+          support_hours: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string
+          brand_name?: string
+          contact_email?: string
+          copyright_text?: string
+          description?: string
+          id?: number
+          is_visible?: boolean
+          logo_url?: string
+          phone?: string
+          policies?: Json
+          quick_links?: Json
+          socials?: Json
+          support_hours?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          brand_name?: string
+          contact_email?: string
+          copyright_text?: string
+          description?: string
+          id?: number
+          is_visible?: boolean
+          logo_url?: string
+          phone?: string
+          policies?: Json
+          quick_links?: Json
+          socials?: Json
+          support_hours?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       hero_slide_clicks: {
         Row: {
           created_at: string

@@ -26,6 +26,7 @@ import { useBottomCta } from '@/hooks/use-bottom-cta';
 import { LookbookGallery } from '@/components/LookbookGallery';
 import { CustomerReviews } from '@/components/CustomerReviews';
 import { NewsletterSignup } from '@/components/NewsletterSignup';
+import { StoreFooter } from '@/components/StoreFooter';
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -138,7 +139,7 @@ function Index() {
       <main className="mx-auto max-w-7xl px-5 py-8 lg:px-8">
         <HeroSlider />
         <div id="special-offers" ref={offersRef}><OfferBanner /></div>
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-3"><div><p className="mb-2 text-xs font-medium text-primary">Workspace</p><h1 className="text-3xl font-semibold">Monolith library</h1></div><span className="text-sm text-muted-foreground">{posts.length} published posts</span></div>
+        <div id="library" className="mb-7 flex scroll-mt-24 flex-wrap items-end justify-between gap-3"><div><p className="mb-2 text-xs font-medium text-primary">Workspace</p><h1 className="text-3xl font-semibold">Monolith library</h1></div><span className="text-sm text-muted-foreground">{posts.length} published posts</span></div>
         <div className="mb-7 grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="metric-card flex items-center gap-4 rounded-lg border bg-card p-5"><span className="metric-icon flex size-11 shrink-0 items-center justify-center rounded-md"><FileText className="size-5" /></span><div><p className="text-xs text-muted-foreground">Published posts</p><p className="mt-1 text-2xl font-semibold tabular-nums">{isLoading ? "—" : posts.length}</p></div></div>
           <div className="metric-card flex items-center gap-4 rounded-lg border bg-card p-5"><span className="metric-icon flex size-11 shrink-0 items-center justify-center rounded-md"><Layers className="size-5" /></span><div><p className="text-xs text-muted-foreground">Categories</p><p className="mt-1 text-2xl font-semibold tabular-nums">{isLoading ? "—" : categories.length}</p></div></div>
@@ -220,9 +221,13 @@ function Index() {
             gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
           }}
         />}
-        <LookbookGallery posts={posts} onSelect={setViewing} />
-        <CustomerReviews posts={posts} />
+        <div id="lookbooks" className="scroll-mt-24"><LookbookGallery posts={posts} onSelect={setViewing} /></div>
+        <div id="reviews" className="scroll-mt-24"><CustomerReviews posts={posts} /></div>
         <NewsletterSignup />
+        <StoreFooter onAction={action => {
+          if (action === 'cart') { setCartOpen(true); return; }
+          document.getElementById(action)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }} />
       </main>
 
       <Dialog open={!!viewing} onOpenChange={(o) => !o && setViewing(null)}>

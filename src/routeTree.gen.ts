@@ -15,12 +15,14 @@ import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AnnouncementBarRouteImport } from './routes/announcement-bar'
 import { Route as BottomCtaRouteImport } from './routes/bottom-cta'
 import { Route as DevConsoleRouteImport } from './routes/dev-console'
+import { Route as FooterRouteImport } from './routes/footer'
 import { Route as HeroSlidesRouteImport } from './routes/hero-slides'
 import { Route as IpSecurityRouteImport } from './routes/ip-security'
 import { Route as LookbooksRouteImport } from './routes/lookbooks'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as OffersRouteImport } from './routes/offers'
 import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as PoliciesSlugRouteImport } from './routes/policies.$slug'
 import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
 import { Route as ApiPublicHeroClickRouteImport } from './routes/api/public/hero-click'
 
@@ -54,6 +56,11 @@ const DevConsoleRoute = DevConsoleRouteImport.update({
   path: '/dev-console',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FooterRoute = FooterRouteImport.update({
+  id: '/footer',
+  path: '/footer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HeroSlidesRoute = HeroSlidesRouteImport.update({
   id: '/hero-slides',
   path: '/hero-slides',
@@ -84,6 +91,11 @@ const ReviewsRoute = ReviewsRouteImport.update({
   path: '/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PoliciesSlugRoute = PoliciesSlugRouteImport.update({
+  id: '/policies/$slug',
+  path: '/policies/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicAnalyticsRoute = ApiPublicAnalyticsRouteImport.update({
   id: '/api/public/analytics',
   path: '/api/public/analytics',
@@ -102,12 +114,14 @@ export interface FileRoutesByFullPath {
   '/announcement-bar': typeof AnnouncementBarRoute
   '/bottom-cta': typeof BottomCtaRoute
   '/dev-console': typeof DevConsoleRoute
+  '/footer': typeof FooterRoute
   '/hero-slides': typeof HeroSlidesRoute
   '/ip-security': typeof IpSecurityRoute
   '/lookbooks': typeof LookbooksRoute
   '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
   '/reviews': typeof ReviewsRoute
+  '/policies/$slug': typeof PoliciesSlugRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
   '/api/public/hero-click': typeof ApiPublicHeroClickRoute
 }
@@ -118,12 +132,14 @@ export interface FileRoutesByTo {
   '/announcement-bar': typeof AnnouncementBarRoute
   '/bottom-cta': typeof BottomCtaRoute
   '/dev-console': typeof DevConsoleRoute
+  '/footer': typeof FooterRoute
   '/hero-slides': typeof HeroSlidesRoute
   '/ip-security': typeof IpSecurityRoute
   '/lookbooks': typeof LookbooksRoute
   '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
   '/reviews': typeof ReviewsRoute
+  '/policies/$slug': typeof PoliciesSlugRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
   '/api/public/hero-click': typeof ApiPublicHeroClickRoute
 }
@@ -135,12 +151,14 @@ export interface FileRoutesById {
   '/announcement-bar': typeof AnnouncementBarRoute
   '/bottom-cta': typeof BottomCtaRoute
   '/dev-console': typeof DevConsoleRoute
+  '/footer': typeof FooterRoute
   '/hero-slides': typeof HeroSlidesRoute
   '/ip-security': typeof IpSecurityRoute
   '/lookbooks': typeof LookbooksRoute
   '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
   '/reviews': typeof ReviewsRoute
+  '/policies/$slug': typeof PoliciesSlugRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
   '/api/public/hero-click': typeof ApiPublicHeroClickRoute
 }
@@ -153,12 +171,14 @@ export interface FileRouteTypes {
     | '/announcement-bar'
     | '/bottom-cta'
     | '/dev-console'
+    | '/footer'
     | '/hero-slides'
     | '/ip-security'
     | '/lookbooks'
     | '/newsletter'
     | '/offers'
     | '/reviews'
+    | '/policies/$slug'
     | '/api/public/analytics'
     | '/api/public/hero-click'
   fileRoutesByTo: FileRoutesByTo
@@ -169,12 +189,14 @@ export interface FileRouteTypes {
     | '/announcement-bar'
     | '/bottom-cta'
     | '/dev-console'
+    | '/footer'
     | '/hero-slides'
     | '/ip-security'
     | '/lookbooks'
     | '/newsletter'
     | '/offers'
     | '/reviews'
+    | '/policies/$slug'
     | '/api/public/analytics'
     | '/api/public/hero-click'
   id:
@@ -185,12 +207,14 @@ export interface FileRouteTypes {
     | '/announcement-bar'
     | '/bottom-cta'
     | '/dev-console'
+    | '/footer'
     | '/hero-slides'
     | '/ip-security'
     | '/lookbooks'
     | '/newsletter'
     | '/offers'
     | '/reviews'
+    | '/policies/$slug'
     | '/api/public/analytics'
     | '/api/public/hero-click'
   fileRoutesById: FileRoutesById
@@ -202,12 +226,14 @@ export interface RootRouteChildren {
   AnnouncementBarRoute: typeof AnnouncementBarRoute
   BottomCtaRoute: typeof BottomCtaRoute
   DevConsoleRoute: typeof DevConsoleRoute
+  FooterRoute: typeof FooterRoute
   HeroSlidesRoute: typeof HeroSlidesRoute
   IpSecurityRoute: typeof IpSecurityRoute
   LookbooksRoute: typeof LookbooksRoute
   NewsletterRoute: typeof NewsletterRoute
   OffersRoute: typeof OffersRoute
   ReviewsRoute: typeof ReviewsRoute
+  PoliciesSlugRoute: typeof PoliciesSlugRoute
   ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
   ApiPublicHeroClickRoute: typeof ApiPublicHeroClickRoute
 }
@@ -256,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevConsoleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/footer': {
+      id: '/footer'
+      path: '/footer'
+      fullPath: '/footer'
+      preLoaderRoute: typeof FooterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hero-slides': {
       id: '/hero-slides'
       path: '/hero-slides'
@@ -298,6 +331,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/policies/$slug': {
+      id: '/policies/$slug'
+      path: '/policies/$slug'
+      fullPath: '/policies/$slug'
+      preLoaderRoute: typeof PoliciesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/analytics': {
       id: '/api/public/analytics'
       path: '/api/public/analytics'
@@ -322,12 +362,14 @@ const rootRouteChildren: RootRouteChildren = {
   AnnouncementBarRoute: AnnouncementBarRoute,
   BottomCtaRoute: BottomCtaRoute,
   DevConsoleRoute: DevConsoleRoute,
+  FooterRoute: FooterRoute,
   HeroSlidesRoute: HeroSlidesRoute,
   IpSecurityRoute: IpSecurityRoute,
   LookbooksRoute: LookbooksRoute,
   NewsletterRoute: NewsletterRoute,
   OffersRoute: OffersRoute,
   ReviewsRoute: ReviewsRoute,
+  PoliciesSlugRoute: PoliciesSlugRoute,
   ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,
   ApiPublicHeroClickRoute: ApiPublicHeroClickRoute,
 }

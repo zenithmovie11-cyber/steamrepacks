@@ -26,3 +26,4 @@
 - Each admin section has its own permission key (src/lib/permissions.ts mirrors the manage_app_role allow-list, my_permissions protected list and RLS checks); why: roles can grant one section without exposing the others, so all three must change together.
 - Checkout prices, live offers and subscriber coupons are recalculated by a database insert trigger using the authenticated buyer; why: browser totals and identity cannot be trusted. Coupon discounts remain disabled until an administrator configures a positive amount.
 - Campaign drafts are device-local and export escaped HTML without sending; why: promotional delivery requires a dedicated marketing service and must not use app-email infrastructure.
+- Footer uses singleton settings with footer.manage RLS, audited writes and a shared preview renderer; public policy pages read only visible settings and render plain text so legal content remains safe and shareable.

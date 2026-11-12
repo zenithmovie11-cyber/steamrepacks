@@ -18,6 +18,7 @@ export const permissionItems = [
   { key: 'lookbooks.manage', label: 'Manage lookbook gallery', group: 'storefront' },
   { key: 'reviews.manage', label: 'Manage customer reviews', group: 'customers' },
   { key: 'newsletter.manage', label: 'Manage newsletter & subscribers', group: 'customers' },
+  { key: 'footer.manage', label: 'Manage footer', group: 'storefront' },
   { key: 'overview.view', label: 'View overview & quick stats', group: 'insights' },
   { key: 'analytics.view', label: 'View analytics', group: 'insights' },
   { key: 'roles.manage', label: 'Manage roles & access', group: 'security' },

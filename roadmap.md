@@ -1,4 +1,5 @@
 # Roadmap
+- [ ] Add homepage Footer, admin editors, policy pages and independent footer permission; verify saves and public display
 - [ ] Verify authenticated checkout and admin save flows — blocked: no signed-up auth users; original admin must sign in in preview
 - [ ] Connect promotional email sending, coupon emails and open/click tracking — blocked: no marketing service connected; Gmail address alone is not a service connection
 - [ ] Connect automatic bKash payments — blocked: merchant service connection not supplied
