@@ -84,6 +84,7 @@ export function PostForm({
     if (!title.trim()) { toast.error("Title is required"); return; }
     if (dlFiles.length === 0 && !keepsOldFile && !playUrl.trim()) { toast.error("Add a download file or a download link"); return; }
     if (!videoFile && videoUrl.trim() && !videoSource(videoUrl)) { toast.error("Video link must be a valid https link (MP4, YouTube or Vimeo)"); return; }
+    if (isPaid && !price.trim()) { toast.error("Price is required for paid posts"); return; }
     if (totalSize > 2e9) { toast.error("Download files must be under 2 GB in total"); return; }
     setSaving(true);
     try {
