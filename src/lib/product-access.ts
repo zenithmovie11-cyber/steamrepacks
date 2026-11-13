@@ -31,5 +31,5 @@ export const requestStatusLabel: Record<RequestStatus, string> = {
 export function bundleName(paths: string[]) {
   const roots = new Set(paths.map(p => p.split('/')[0]).filter(Boolean));
   const root = roots.size === 1 && paths.every(p => p.includes('/')) ? [...roots][0] : 'files';
-  return `${root.replace(/[^\w.-]/g, '_') || 'files'}.zip`;
+  return `${(root ?? 'files').replace(/[^\w.-]/g, '_') || 'files'}.zip`;
 }
