@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
-  Search, Plus, ShoppingCart, Check, Layers, LogIn, LogOut, Play, FileText, Download, Pencil, Trash2, Clock,
+  Search, Plus, ShoppingCart, Check, Layers, LogIn, LogOut, FileText, Download, Pencil, Trash2, Clock,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
@@ -27,6 +27,12 @@ import { LookbookGallery } from '@/components/LookbookGallery';
 import { CustomerReviews } from '@/components/CustomerReviews';
 import { NewsletterSignup } from '@/components/NewsletterSignup';
 import { StoreFooter } from '@/components/StoreFooter';
+import { DownloadButton } from '@/components/DownloadButton';
+import { ProductDetail } from '@/components/ProductDetail';
+import { MyRequestsDialog } from '@/components/MyRequestsDialog';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { entitledPostIds, pendingPostIds, type PurchaseRequest } from '@/lib/product-access';
+import { Receipt } from 'lucide-react';
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -58,12 +64,26 @@ function Index() {
   const cart = useCart();
   const { data: offers = [] } = useOffers();
   const bottomCta = useBottomCta();
+  const [reqOpen, setReqOpen] = useState(false);
+  const { data: myRequests = [] } = useQuery({
+    queryKey: ["my-requests", user?.id],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("orders").select("id,post_ids,status,total,subtotal,discount_amount,created_at,transaction_id,admin_note,reviewed_at").eq("user_id", user!.id).order("created_at", { ascending: false });
+      if (error) throw error;
+      return data as PurchaseRequest[];
+    },
+  });
+  const owned = useMemo(() => entitledPostIds(myRequests), [myRequests]);
+  const pending = useMemo(() => pendingPostIds(myRequests), [myRequests]);
+  const canGet = (p: Post) => !p.is_paid || owned.has(p.id);
+  const hasDl = (p: Post) => !!(p.download_path || p.play_url);
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
       const [{ data, error }, links] = await Promise.all([
-        supabase.from("posts").select("id,title,description,category,cover_url,file_url,file_name,created_at,updated_at,device_support,is_paid,price").order("created_at", { ascending: false }),
+        supabase.from("posts").select("id,title,description,category,cover_url,file_url,file_name,video_url,download_path,download_name,created_at,updated_at,device_support,is_paid,price").order("created_at", { ascending: false }),
         supabase.rpc("post_play_urls"),
       ]);
       if (error) throw error;
@@ -114,6 +134,8 @@ function Index() {
             <span className="text-sm font-medium">Content library</span>
           </div>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
+            {user && <Button variant="outline" className="border" onClick={() => setReqOpen(true)} aria-label="My requests"><Receipt /> <span className="hidden sm:inline">My requests</span></Button>}
             <Button variant="outline" className="relative border" onClick={() => setCartOpen(true)} aria-label="Cart">
               <ShoppingCart /> <span className="hidden sm:inline">Cart</span>
               {cart.ids.length > 0 && <span className="absolute -top-2 -right-2 flex size-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">{cart.ids.length}</span>}
@@ -199,8 +221,7 @@ function Index() {
                   </div>
                 </Button>
                 <div className="mt-auto flex gap-2 border-t p-4">
-                  {p.is_paid && !p.play_url && <CartButton id={p.id} className="flex-1" />}
-                  {p.play_url && <PlayButton url={p.play_url} className="flex-1" />}
+                  {canGet(p) ? hasDl(p) && <DownloadButton post={p} className="flex-1" /> : pending.has(p.id) ? <Button variant="outline" disabled className="flex-1 border"><Clock /> Request pending</Button> : <CartButton id={p.id} className="flex-1" />}
                   {(can('posts.edit') || can('posts.delete')) && (
                     <>
                       {can('posts.edit') && <Button variant="outline" size="icon" className="border" onClick={() => openForm(p)} aria-label="Edit"><Pencil /></Button>}
@@ -231,51 +252,37 @@ function Index() {
       </main>
 
       <Dialog open={!!viewing} onOpenChange={(o) => !o && setViewing(null)}>
-        <DialogContent className="max-h-[92vh] overflow-y-auto border p-0 sm:max-w-3xl">
+        <DialogContent className="max-h-[92vh] overflow-y-auto border p-0 sm:max-w-3xl lg:max-w-6xl">
           {viewing && (
-            <>
-              {viewing.cover_url && (
-                <a href={viewing.cover_url} target="_blank" rel="noreferrer">
-                  <img src={viewing.cover_url} alt={viewing.title} className="w-full border-b" />
-                </a>
-              )}
-              <div className="space-y-4 p-6">
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="badge">{viewing.category}</span>
-                  <span className="badge">{viewing.device_support}</span>
-                  {viewing.is_paid ? (
-                    <PriceBadge post={viewing} offers={offers} />
-                  ) : (
-                    <span className="badge badge-free">Free</span>
-                  )}
-                </div>
-                <DialogTitle className="text-2xl leading-tight font-semibold">{viewing.title}</DialogTitle>
-                <p className="flex items-center gap-1.5 text-xs text-muted-foreground"><Clock className="size-3" />Published {formatTime(viewing.created_at)}</p>
-                {viewing.description && <div className="leading-relaxed whitespace-pre-wrap">{viewing.description}</div>}
+            <ProductDetail
+              post={viewing}
+              badges={<>
+                <span className="badge">{viewing.category}</span>
+                <span className="badge">{viewing.device_support}</span>
+                {viewing.is_paid ? <PriceBadge post={viewing} offers={offers} /> : <span className="badge badge-free">Free</span>}
+              </>}
+              panel={<>
                 {viewing.file_url && (
-                  <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-muted/40 p-4">
+                  <div className="flex flex-wrap items-center gap-3 rounded-lg border bg-card p-3">
                     <FileText className="size-5" />
                     <span className="flex-1 truncate text-sm">{viewing.file_name ?? "Attachment"}</span>
-                    <Button asChild variant="outline" className="border"><a href={viewing.file_url} target="_blank" rel="noreferrer">View</a></Button>
-                    <Button asChild variant="outline" className="border"><a href={viewing.file_url} download={viewing.file_name ?? true}><Download /> Download</a></Button>
+                    <Button asChild variant="outline" size="sm" className="border"><a href={viewing.file_url} target="_blank" rel="noreferrer">View</a></Button>
                   </div>
                 )}
-                <div className="flex gap-2">
-                  {viewing.is_paid && !viewing.play_url && <CartButton id={viewing.id} className="h-12 flex-1 text-base" />}
-                  {viewing.play_url && <PlayButton url={viewing.play_url} className="h-12 flex-1 text-base" />}
-                  {(can('posts.edit') || can('posts.delete')) && (
-                    <>
-                      {can('posts.edit') && <Button variant="outline" className="h-12 border" onClick={() => { const p = viewing; setViewing(null); openForm(p); }}><Pencil /> Edit</Button>}
-                      {can('posts.delete') && <Button variant="outline" className="h-12 border" onClick={() => del(viewing)}><Trash2 /> Delete</Button>}
-                    </>
-                  )}
+                <div className="flex flex-col gap-2">
+                  {canGet(viewing) ? (hasDl(viewing) ? <DownloadButton post={viewing} size="lg" className="h-12 w-full text-base" /> : <p className="text-sm text-muted-foreground">No download added yet.</p>)
+                    : pending.has(viewing.id) ? <Button variant="outline" disabled className="h-12 border"><Clock /> Request pending approval</Button>
+                    : <CartButton id={viewing.id} className="h-12 w-full text-base" />}
+                  {can('posts.edit') && <Button variant="outline" className="h-11 border" onClick={() => { const p = viewing; setViewing(null); openForm(p); }}><Pencil /> Edit</Button>}
+                  {can('posts.delete') && <Button variant="outline" className="h-11 border" onClick={() => del(viewing)}><Trash2 /> Delete</Button>}
                 </div>
-              </div>
-            </>
+              </>}
+            />
           )}
         </DialogContent>
       </Dialog>
 
+      <MyRequestsDialog open={reqOpen} onOpenChange={setReqOpen} requests={myRequests} posts={posts} />
       <CartDialog open={cartOpen} onOpenChange={setCartOpen} posts={posts} offers={offers} signedIn={!!user} onSignIn={signIn} />
 
       {formOpen && (
@@ -290,14 +297,6 @@ function Index() {
       )}
       </div>
     </SidebarProvider>
-  );
-}
-
-function PlayButton({ url, className }: { url: string; className?: string }) {
-  return (
-    <Button asChild className={`font-medium ${className ?? ""}`}>
-      <a href={url} target="_blank" rel="noopener noreferrer"><Play className="fill-current" /> Play Now</a>
-    </Button>
   );
 }
 
