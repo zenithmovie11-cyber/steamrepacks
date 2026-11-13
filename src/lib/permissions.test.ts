@@ -16,7 +16,7 @@ describe('role permissions', () => {
   it('offers 17 permissions covering every admin section', () => {
     expect(permissionItems.map(p => p.key)).toEqual([
       'posts.create', 'posts.edit', 'posts.delete', 'slides.manage', 'offers.manage', 'announcement.manage',
-      'bottom_cta.manage', 'lookbooks.manage', 'reviews.manage', 'newsletter.manage', 'footer.manage', 'overview.view', 'analytics.view',
+      'bottom_cta.manage', 'lookbooks.manage', 'reviews.manage', 'orders.manage', 'newsletter.manage', 'footer.manage', 'overview.view', 'analytics.view',
       'roles.manage', 'security.manage', 'audit.view',
     ]);
   });
