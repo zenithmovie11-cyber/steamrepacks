@@ -13,15 +13,15 @@ describe('role permissions', () => {
     expect(canAccess(['roles.manage'], 'audit.view')).toBe(false);
     expect(canAccess(['audit.view'], 'audit.view')).toBe(true);
   });
-  it('offers 16 permissions covering every admin section', () => {
+  it('offers 17 permissions covering every admin section', () => {
     expect(permissionItems.map(p => p.key)).toEqual([
       'posts.create', 'posts.edit', 'posts.delete', 'slides.manage', 'offers.manage', 'announcement.manage',
-      'bottom_cta.manage', 'lookbooks.manage', 'reviews.manage', 'newsletter.manage', 'footer.manage', 'overview.view', 'analytics.view',
+      'bottom_cta.manage', 'lookbooks.manage', 'reviews.manage', 'orders.manage', 'newsletter.manage', 'footer.manage', 'overview.view', 'analytics.view',
       'roles.manage', 'security.manage', 'audit.view',
     ]);
   });
   it('places every permission in exactly one group', () => {
-    expect(permissionsByGroup().flatMap(g => g.items).length).toBe(16);
+    expect(permissionsByGroup().flatMap(g => g.items).length).toBe(17);
   });
   it('keeps new section permissions independent of hero slides', () => {
     expect(canAccess(['slides.manage'], 'reviews.manage')).toBe(false);

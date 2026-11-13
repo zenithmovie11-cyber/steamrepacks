@@ -21,6 +21,7 @@ import { Route as IpSecurityRouteImport } from './routes/ip-security'
 import { Route as LookbooksRouteImport } from './routes/lookbooks'
 import { Route as NewsletterRouteImport } from './routes/newsletter'
 import { Route as OffersRouteImport } from './routes/offers'
+import { Route as RequestsRouteImport } from './routes/requests'
 import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as PoliciesSlugRouteImport } from './routes/policies.$slug'
 import { Route as ApiPublicAnalyticsRouteImport } from './routes/api/public/analytics'
@@ -86,6 +87,11 @@ const OffersRoute = OffersRouteImport.update({
   path: '/offers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RequestsRoute = RequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/lookbooks': typeof LookbooksRoute
   '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
+  '/requests': typeof RequestsRoute
   '/reviews': typeof ReviewsRoute
   '/policies/$slug': typeof PoliciesSlugRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/lookbooks': typeof LookbooksRoute
   '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
+  '/requests': typeof RequestsRoute
   '/reviews': typeof ReviewsRoute
   '/policies/$slug': typeof PoliciesSlugRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -157,6 +165,7 @@ export interface FileRoutesById {
   '/lookbooks': typeof LookbooksRoute
   '/newsletter': typeof NewsletterRoute
   '/offers': typeof OffersRoute
+  '/requests': typeof RequestsRoute
   '/reviews': typeof ReviewsRoute
   '/policies/$slug': typeof PoliciesSlugRoute
   '/api/public/analytics': typeof ApiPublicAnalyticsRoute
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/lookbooks'
     | '/newsletter'
     | '/offers'
+    | '/requests'
     | '/reviews'
     | '/policies/$slug'
     | '/api/public/analytics'
@@ -195,6 +205,7 @@ export interface FileRouteTypes {
     | '/lookbooks'
     | '/newsletter'
     | '/offers'
+    | '/requests'
     | '/reviews'
     | '/policies/$slug'
     | '/api/public/analytics'
@@ -213,6 +224,7 @@ export interface FileRouteTypes {
     | '/lookbooks'
     | '/newsletter'
     | '/offers'
+    | '/requests'
     | '/reviews'
     | '/policies/$slug'
     | '/api/public/analytics'
@@ -232,6 +244,7 @@ export interface RootRouteChildren {
   LookbooksRoute: typeof LookbooksRoute
   NewsletterRoute: typeof NewsletterRoute
   OffersRoute: typeof OffersRoute
+  RequestsRoute: typeof RequestsRoute
   ReviewsRoute: typeof ReviewsRoute
   PoliciesSlugRoute: typeof PoliciesSlugRoute
   ApiPublicAnalyticsRoute: typeof ApiPublicAnalyticsRoute
@@ -324,6 +337,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OffersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/requests': {
+      id: '/requests'
+      path: '/requests'
+      fullPath: '/requests'
+      preLoaderRoute: typeof RequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reviews': {
       id: '/reviews'
       path: '/reviews'
@@ -368,6 +388,7 @@ const rootRouteChildren: RootRouteChildren = {
   LookbooksRoute: LookbooksRoute,
   NewsletterRoute: NewsletterRoute,
   OffersRoute: OffersRoute,
+  RequestsRoute: RequestsRoute,
   ReviewsRoute: ReviewsRoute,
   PoliciesSlugRoute: PoliciesSlugRoute,
   ApiPublicAnalyticsRoute: ApiPublicAnalyticsRoute,

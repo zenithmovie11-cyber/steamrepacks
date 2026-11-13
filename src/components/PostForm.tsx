@@ -25,7 +25,7 @@ export async function upload(file: File) {
 
 /** One selected file uploads as-is (zip stays zip); several files or a folder are zipped in the browser first. */
 async function bundle(files: File[]): Promise<File> {
-  if (files.length === 1 && !files[0].webkitRelativePath.includes("/")) return files[0];
+  if (files.length === 1 && !files[0]!.webkitRelativePath.includes("/")) return files[0]!;
   const entries: Record<string, Uint8Array> = {};
   for (const f of files) {
     let key = f.webkitRelativePath || f.name;
@@ -99,7 +99,7 @@ export function PostForm({
       let download_path = removeDl ? null : post?.download_path ?? null;
       let download_name = removeDl ? null : post?.download_name ?? null;
       if (dlFiles.length > 0) {
-        setStatus(dlFiles.length > 1 || dlFiles[0].webkitRelativePath ? "Zipping files…" : "Uploading download file…");
+        setStatus(dlFiles.length > 1 || dlFiles[0]?.webkitRelativePath ? "Zipping files…" : "Uploading download file…");
         const file = await bundle(dlFiles);
         setStatus("Uploading download file…");
         download_path = await uploadProductFile(file);
@@ -223,7 +223,7 @@ export function PostForm({
             </div>
             {dlFiles.length > 0 ? (
               <div className="mt-2 flex items-center gap-2 rounded-md border bg-muted/40 px-3 py-2 text-sm">
-                <span className="flex-1 truncate">{dlFiles.length === 1 && !dlFiles[0].webkitRelativePath ? dlFiles[0].name : `${dlFiles.length} files → ${bundleName(dlFiles.map((f) => f.webkitRelativePath || f.name))}`} · {fmtSize(totalSize)}</span>
+                <span className="flex-1 truncate">{dlFiles.length === 1 && !dlFiles[0]?.webkitRelativePath ? dlFiles[0]?.name : `${dlFiles.length} files → ${bundleName(dlFiles.map((f) => f.webkitRelativePath || f.name))}`} · {fmtSize(totalSize)}</span>
                 <Button type="button" variant="ghost" size="icon" aria-label="Clear selected files" onClick={() => setDlFiles([])}><X /></Button>
               </div>
             ) : keepsOldFile ? (

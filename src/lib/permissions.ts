@@ -17,6 +17,7 @@ export const permissionItems = [
   { key: 'bottom_cta.manage', label: 'Manage bottom banner CTA', group: 'storefront' },
   { key: 'lookbooks.manage', label: 'Manage lookbook gallery', group: 'storefront' },
   { key: 'reviews.manage', label: 'Manage customer reviews', group: 'customers' },
+  { key: 'orders.manage', label: 'Approve purchase requests', group: 'customers' },
   { key: 'newsletter.manage', label: 'Manage newsletter & subscribers', group: 'customers' },
   { key: 'footer.manage', label: 'Manage footer', group: 'storefront' },
   { key: 'overview.view', label: 'View overview & quick stats', group: 'insights' },
