@@ -1,4 +1,10 @@
 # Roadmap
+- [ ] Restore protected Administrator access for the three admin emails in this remix
+- [ ] Light/Dark mode switch (light stays default)
+- [ ] Free products: "Play now" becomes "Download" (file download, else go to link)
+- [ ] Post form: optional download file/folder/zip upload and product video (upload or link)
+- [ ] Desktop landscape product view with image + video side by side
+- [ ] Purchase "Request" flow: customer sends request, admin approves/rejects, approved buyer downloads from the site
 - [x] Add homepage Footer, admin editors, policy pages and independent footer permission; authenticated saves, public display, cart, visibility and mobile verified
 - [ ] Verify authenticated checkout and admin save flows — blocked: no signed-up auth users; original admin must sign in in preview
 - [ ] Connect promotional email sending, coupon emails and open/click tracking — blocked: no marketing service connected; Gmail address alone is not a service connection
