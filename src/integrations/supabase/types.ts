@@ -730,6 +730,7 @@ export type Database = {
       orders: {
         Row: {
           address: string
+          admin_note: string | null
           bkash_number: string
           city: string
           coupon_code: string | null
@@ -741,13 +742,17 @@ export type Database = {
           payment_ref: string | null
           phone: string
           post_ids: string[]
+          reviewed_at: string | null
+          reviewed_by: string | null
           status: string
           subtotal: number
           total: number
+          transaction_id: string | null
           user_id: string
         }
         Insert: {
           address: string
+          admin_note?: string | null
           bkash_number: string
           city: string
           coupon_code?: string | null
@@ -759,13 +764,17 @@ export type Database = {
           payment_ref?: string | null
           phone: string
           post_ids: string[]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           status?: string
           subtotal?: number
           total?: number
+          transaction_id?: string | null
           user_id?: string
         }
         Update: {
           address?: string
+          admin_note?: string | null
           bkash_number?: string
           city?: string
           coupon_code?: string | null
@@ -777,9 +786,12 @@ export type Database = {
           payment_ref?: string | null
           phone?: string
           post_ids?: string[]
+          reviewed_at?: string | null
+          reviewed_by?: string | null
           status?: string
           subtotal?: number
           total?: number
+          transaction_id?: string | null
           user_id?: string
         }
         Relationships: []
@@ -791,6 +803,8 @@ export type Database = {
           created_at: string
           description: string
           device_support: string
+          download_name: string | null
+          download_path: string | null
           file_name: string | null
           file_url: string | null
           id: string
@@ -799,6 +813,7 @@ export type Database = {
           price: string | null
           title: string
           updated_at: string
+          video_url: string | null
         }
         Insert: {
           category?: string
@@ -806,6 +821,8 @@ export type Database = {
           created_at?: string
           description?: string
           device_support?: string
+          download_name?: string | null
+          download_path?: string | null
           file_name?: string | null
           file_url?: string | null
           id?: string
@@ -814,6 +831,7 @@ export type Database = {
           price?: string | null
           title: string
           updated_at?: string
+          video_url?: string | null
         }
         Update: {
           category?: string
@@ -821,6 +839,8 @@ export type Database = {
           created_at?: string
           description?: string
           device_support?: string
+          download_name?: string | null
+          download_path?: string | null
           file_name?: string | null
           file_url?: string | null
           id?: string
@@ -829,6 +849,7 @@ export type Database = {
           price?: string | null
           title?: string
           updated_at?: string
+          video_url?: string | null
         }
         Relationships: []
       }
@@ -993,6 +1014,7 @@ export type Database = {
         Args: { p_email: string; p_role: string }
         Returns: undefined
       }
+      can_download_product_file: { Args: { p_name: string }; Returns: boolean }
       checkout_quote: {
         Args: { p_coupon?: string; p_post_ids: string[] }
         Returns: Json
@@ -1070,6 +1092,10 @@ export type Database = {
       }
       record_hero_slide_click: {
         Args: { p_id: string; p_session: string; p_slide: string }
+        Returns: undefined
+      }
+      review_order: {
+        Args: { p_id: string; p_note?: string; p_status: string }
         Returns: undefined
       }
       review_stats: { Args: never; Returns: Json }
