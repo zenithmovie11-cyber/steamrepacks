@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Trash2 } from "lucide-react";
+import { Trash2, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,8 @@ type Form = Record<(typeof fields)[number][0], string>;
 
 export function CartDialog({ open, onOpenChange, posts, offers, signedIn, onSignIn }: { open: boolean; onOpenChange: (o: boolean) => void; posts: Post[]; offers: Offer[]; signedIn: boolean; onSignIn: () => void }) {
   const cart = useCart();
+  const qc = useQueryClient();
+  const [trx, setTrx] = useState("");
   const items = posts.filter((p) => cart.has(p.id) && p.is_paid);
   const priceOf = (p: Post) => { const base = parsePrice(p.price); return bestOffer(p.id, base, offers, Date.now())?.price ?? base; };
   const total = items.reduce((s, p) => s + priceOf(p), 0);
@@ -51,20 +54,21 @@ export function CartDialog({ open, onOpenChange, posts, offers, signedIn, onSign
     e.preventDefault();
     if (!/^01[3-9]\d{8}$/.test(form.phone) || !/^01[3-9]\d{8}$/.test(form.bkash_number)) { toast.error("Enter a valid 11-digit Bangladeshi number (01XXXXXXXXX)"); return; }
     setSaving(true);
-    const { data: saved, error } = await supabase.from("orders").insert({ ...Object.fromEntries(Object.entries(form).map(([k, v]) => [k, v.trim()])) as Form, post_ids: items.map((p) => p.id), coupon_code: validQuote?.coupon ?? null }).select('id,total').single();
+    const { data: saved, error } = await supabase.from("orders").insert({ ...Object.fromEntries(Object.entries(form).map(([k, v]) => [k, v.trim()])) as Form, post_ids: items.map((p) => p.id), coupon_code: validQuote?.coupon ?? null, transaction_id: trx.trim() || null }).select('id,total').single();
     setSaving(false);
     if (error) { toast.error(error.message); return; }
     cart.clear();
     setStep("cart");
-    setCoupon(''); setQuote(null);
+    setCoupon(''); setQuote(null); setTrx("");
     onOpenChange(false);
-    toast.success(`Order saved · ৳${saved.total}. Payment is pending; no money has been charged.`);
+    void qc.invalidateQueries({ queryKey: ["my-requests"] });
+    toast.success(`Request sent · ৳${saved.total}. You can download from "My requests" once an admin approves it.`);
   }
 
   return (
     <Dialog open={open} onOpenChange={(o) => { onOpenChange(o); if (!o) setStep("cart"); }}>
       <DialogContent className="max-h-[90vh] overflow-y-auto border sm:max-w-lg">
-        <DialogHeader><DialogTitle>{step === "cart" ? "Your cart" : "Buyer information"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle>{step === "cart" ? "Your cart" : "Payment request"}</DialogTitle></DialogHeader>
         {step === "cart" ? (
           items.length === 0 ? <p className="py-8 text-center text-sm text-muted-foreground">Your cart is empty.</p> : (
             <div className="space-y-3">
@@ -78,19 +82,24 @@ export function CartDialog({ open, onOpenChange, posts, offers, signedIn, onSign
               {signedIn && <div className="flex gap-2"><Input aria-label="Coupon code" placeholder="Coupon code" value={coupon} onChange={e => setCoupon(e.target.value.toUpperCase())} maxLength={40} /><Button variant="outline" onClick={applyCoupon} disabled={quoting}>{quoting ? 'Checking…' : 'Apply'}</Button></div>}
               {validQuote && validQuote.discount > 0 && <div className="flex justify-between text-sm text-success"><span>Coupon discount</span><span>−৳{validQuote.discount}</span></div>}
               <div className="flex justify-between border-t pt-3 font-semibold"><span>Total</span><span className="tabular-nums">৳{validQuote?.total ?? total}</span></div>
-              {signedIn ? <Button className="w-full" onClick={() => setStep("info")}>Buy now</Button> : <Button className="w-full" onClick={onSignIn}>Sign in to buy</Button>}
+              {signedIn ? <Button className="w-full" onClick={() => setStep("info")}>Continue to payment request</Button> : <Button className="w-full" onClick={onSignIn}>Sign in to buy</Button>}
             </div>
           )
         ) : (
           <form onSubmit={submit} className="space-y-3">
+            <p className="rounded-md border bg-muted/40 px-3 py-2 text-sm text-muted-foreground">Enter your payment details and press Request. An admin checks the payment and approves it — then the products unlock for download in "My requests".</p>
             {fields.map(([k, label, type]) => (
               <div key={k} className="space-y-1.5">
                 <Label htmlFor={k}>{label}</Label>
                 <Input id={k} type={type} required maxLength={k === "address" ? 300 : 100} value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })} placeholder={type === "tel" ? "01XXXXXXXXX" : undefined} />
               </div>
             ))}
+            <div className="space-y-1.5">
+              <Label htmlFor="transaction_id">bKash transaction ID (optional)</Label>
+              <Input id="transaction_id" maxLength={40} value={trx} onChange={(e) => setTrx(e.target.value)} placeholder="e.g. 9A7B6C5D4E" />
+            </div>
             <div className="flex justify-between border-t pt-3 font-semibold"><span>Total</span><span className="tabular-nums">৳{validQuote?.total ?? total}</span></div>
-            <div className="flex gap-2"><Button type="button" variant="outline" onClick={() => setStep("cart")}>Back</Button><Button type="submit" className="flex-1" disabled={saving}>{saving ? "Saving…" : "Place order"}</Button></div>
+            <div className="flex gap-2"><Button type="button" variant="outline" onClick={() => setStep("cart")}>Back</Button><Button type="submit" className="flex-1" disabled={saving}>{saving ? "Sending…" : <><Send /> Request</>}</Button></div>
           </form>
         )}
       </DialogContent>
