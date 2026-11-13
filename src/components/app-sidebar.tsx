@@ -1,5 +1,5 @@
-import { Receipt, Link, useRouterState } from "@tanstack/react-router";
-import { Terminal, Library, Layers, ShieldCheck, ShieldBan, ChartNoAxesCombined, Images, KeyRound, BadgePercent, Megaphone, BellRing, Star, Mail, PanelBottom } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { Terminal, Library, Layers, ShieldCheck, ShieldBan, ChartNoAxesCombined, Images, KeyRound, BadgePercent, Megaphone, BellRing, Star, Mail, PanelBottom, Receipt } from "lucide-react";
 
 import {
   Sidebar,
