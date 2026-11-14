@@ -39,3 +39,5 @@
 - [x] Newsletter signup on homepage (below reviews) with instant coupon reveal and duplicate-safe saving
 - [x] Newsletter admin: subscribers list, search/filter, CSV export, unsubscribe/delete, settings & design, analytics, newsletter.manage permission
 - [ ] Newsletter broadcasts and open/click rates — blocked: needs a marketing email service (app emails cannot send newsletters)
+
+- [ ] Build customer management: customer records, order history, account status/flags, customer tiers, CSV/Excel export, and safe support links
