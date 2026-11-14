@@ -205,6 +205,36 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_accounts: {
+        Row: {
+          created_at: string
+          customer_tier: string
+          notes: string
+          status: string
+          status_reason: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          customer_tier?: string
+          notes?: string
+          status?: string
+          status_reason?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          customer_tier?: string
+          notes?: string
+          status?: string
+          status_reason?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       customer_reviews: {
         Row: {
           admin_replied_at: string | null
@@ -1009,6 +1039,17 @@ export type Database = {
     Functions: {
       admin_analytics: { Args: { p_days?: number }; Returns: Json }
       admin_analytics_acquisition: { Args: { p_days?: number }; Returns: Json }
+      admin_customer_profile: { Args: { p_user_id: string }; Returns: Json }
+      admin_customers: {
+        Args: {
+          p_limit?: number
+          p_offset?: number
+          p_search?: string
+          p_status?: string
+          p_tier?: string
+        }
+        Returns: Json
+      }
       admin_hero_slide_stats: { Args: { p_days?: number }; Returns: Json }
       assign_app_role: {
         Args: { p_email: string; p_role: string }
@@ -1036,6 +1077,16 @@ export type Database = {
       manage_app_role: {
         Args: { p_id: string; p_name: string; p_permissions: string[] }
         Returns: string
+      }
+      manage_customer: {
+        Args: {
+          p_customer_tier: string
+          p_notes?: string
+          p_reason?: string
+          p_status: string
+          p_user_id: string
+        }
+        Returns: undefined
       }
       manage_ip_security_rule: {
         Args: {
